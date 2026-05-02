@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HeySir PFE-Link - Sign Up</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-tertiary-fixed": "#311400",
+                        "surface-container": "#edeeef",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "primary": "#0058be",
+                        "tertiary": "#924700",
+                        "surface-dim": "#d9dadb",
+                        "outline": "#727785",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-primary-container": "#fefcff",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#191c1d",
+                        "secondary": "#545f73",
+                        "on-secondary-container": "#586377",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container-low": "#f3f4f5",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#b75b00",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-tint": "#005ac2",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-primary": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-primary-fixed": "#001a42",
+                        "primary-container": "#2170e4",
+                        "on-tertiary-container": "#fffbff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#111c2d",
+                        "outline-variant": "#c2c6d6",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary-fixed-variant": "#004395",
+                        "inverse-surface": "#2e3132",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9fa",
+                        "on-surface-variant": "#424754",
+                        "secondary-container": "#d5e0f8",
+                        "surface": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "3xl": "64px",
+                        "lg": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "display": ["Inter"],
+                        "code": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "h3": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "code": ["13px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "h3": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "h1": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "h2": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<div class="flex w-full min-h-screen">
+<!-- Left Panel: Brand / Image (Hidden on smaller screens) -->
+<div class="hidden lg:flex w-[45%] relative flex-col justify-between overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center z-0" data-alt="modern university campus building interior with blurred students walking through a sunlit corridor, conveying academic excellence and forward momentum" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCh_hjcMvpDhnzJ5IMHOfjHfy6n6QTlAH2pZ59fQIJMp3vIFepY5axHY6TFPWhwvtznEYbE4r1EO4L1Me2sqi9vugo-YG6WDPE8ImSQKd3bPFRjBYGJQvP_tthIs7yl1ai6QnWJsUOG80AvkIVv5Pd8-w_JmBC5lhBtZK_yj-lBcBdusyuKO6Lu66KSshHKHgYqOwK9ZGRn-V4TeGNcMWQZJSTbbH4EyvuaKOzSQJvnUdjrbJ_vgiZj-lEnJzz5-Z8tHYfieMFphA')"></div>
+<div class="absolute inset-0 bg-primary/90 mix-blend-multiply z-10"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent z-10"></div>
+<div class="relative z-20 p-xl flex flex-col h-full justify-between text-on-primary">
+<div>
+<span class="font-h2 text-h2 tracking-tight">HeySir PFE-Link</span>
+</div>
+<div class="max-w-md pb-2xl">
+<h1 class="font-display text-display mb-md leading-tight text-on-primary-container">Orchestrate your academic journey.</h1>
+<p class="font-body-lg text-body-lg text-primary-fixed-dim">
+                        Join the central hub for managing final year projects. Connect with advisors, submit milestones, and track your progress in one unified platform.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Right Panel: Form Content -->
+<div class="flex-1 flex items-center justify-center p-md sm:p-xl bg-surface-container-lowest">
+<div class="w-full max-w-[440px] flex flex-col">
+<!-- Mobile Header Logo (Visible only when left panel is hidden) -->
+<div class="lg:hidden mb-lg">
+<span class="font-h2 text-h2 text-primary tracking-tight">HeySir PFE-Link</span>
+</div>
+<div class="mb-xl">
+<h2 class="font-h1 text-h1 text-on-surface mb-xs">Create your account</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Enter your details to access the portal.</p>
+</div>
+<form class="flex flex-col gap-lg">
+<!-- Role Selection -->
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-label-md text-on-surface">I am a...</span>
+<div class="grid grid-cols-2 gap-md">
+<!-- Active Role Example -->
+<label class="flex items-center gap-sm p-sm border-2 border-primary bg-primary-fixed/20 rounded-lg cursor-pointer transition-all">
+<input checked="" class="sr-only" name="role" type="radio" value="student"/>
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-primary-fixed text-primary">
+<span class="material-symbols-outlined text-[18px]">school</span>
+</div>
+<span class="font-code text-code text-on-surface">Student</span>
+</label>
+<!-- Inactive Role Example -->
+<label class="flex items-center gap-sm p-sm border-2 border-transparent outline outline-1 outline-outline-variant bg-surface-container-lowest rounded-lg cursor-pointer hover:bg-surface-container-low hover:outline-outline transition-all">
+<input class="sr-only" name="role" type="radio" value="advisor"/>
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">engineering</span>
+</div>
+<span class="font-code text-code text-on-surface-variant">Advisor</span>
+</label>
+</div>
+</div>
+<div class="flex flex-col gap-md">
+<!-- Full Name -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="fullName">Full Name</label>
+<input class="w-full px-md py-[10px] rounded-DEFAULT border border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm" id="fullName" placeholder="Jane Doe" type="text"/>
+</div>
+<!-- University Email -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="email">University Email</label>
+<input class="w-full px-md py-[10px] rounded-DEFAULT border border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm" id="email" placeholder="jane.doe@university.edu" type="email"/>
+</div>
+<!-- Faculty Selection -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="faculty">Faculty / Department</label>
+<div class="relative">
+<select class="w-full px-md py-[10px] pr-xl rounded-DEFAULT border border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface appearance-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm cursor-pointer" id="faculty">
+<option disabled="" selected="" value="">Select your faculty</option>
+<option value="cs">Computer Science &amp; Engineering</option>
+<option value="business">Business Administration</option>
+<option value="arts">Arts &amp; Humanities</option>
+<option value="sciences">Natural Sciences</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 pointer-events-none text-outline-variant">expand_more</span>
+</div>
+</div>
+<!-- Password -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<input class="w-full px-md py-[10px] rounded-DEFAULT border border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm" id="password" placeholder="••••••••" type="password"/>
+</div>
+<!-- Confirm Password -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="confirmPassword">Confirm Password</label>
+<input class="w-full px-md py-[10px] rounded-DEFAULT border border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm" id="confirmPassword" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Submit Actions -->
+<div class="flex flex-col gap-md mt-sm">
+<button class="w-full py-[10px] px-md bg-primary text-on-primary font-label-md text-label-md font-semibold rounded-DEFAULT hover:bg-on-primary-fixed-variant transition-colors shadow-sm flex items-center justify-center gap-sm" type="submit">
+                            Create Account
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<div class="text-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+                                Already have an account? 
+                                <a class="text-primary font-medium hover:text-on-primary-fixed-variant hover:underline transition-colors" href="#">Log in here</a>
+</span>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</body></html>

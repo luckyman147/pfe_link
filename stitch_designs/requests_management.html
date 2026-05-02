@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HeySir PFE-Link - Advisor Requests</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#d8e2ff",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#adc6ff",
+                      "on-tertiary-fixed": "#311400",
+                      "surface-container": "#edeeef",
+                      "on-tertiary-fixed-variant": "#723600",
+                      "primary": "#0058be",
+                      "tertiary": "#924700",
+                      "surface-dim": "#d9dadb",
+                      "outline": "#727785",
+                      "on-error": "#ffffff",
+                      "secondary-fixed": "#d8e3fb",
+                      "on-primary-container": "#fefcff",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#191c1d",
+                      "secondary": "#545f73",
+                      "on-secondary-container": "#586377",
+                      "error": "#ba1a1a",
+                      "surface-variant": "#e1e3e4",
+                      "surface-container-low": "#f3f4f5",
+                      "on-primary": "#ffffff",
+                      "tertiary-container": "#b75b00",
+                      "on-secondary-fixed-variant": "#3c475a",
+                      "surface-container-high": "#e7e8e9",
+                      "surface-tint": "#005ac2",
+                      "tertiary-fixed": "#ffdcc6",
+                      "inverse-primary": "#adc6ff",
+                      "on-tertiary": "#ffffff",
+                      "surface-bright": "#f8f9fa",
+                      "surface-container-highest": "#e1e3e4",
+                      "tertiary-fixed-dim": "#ffb786",
+                      "on-primary-fixed": "#001a42",
+                      "primary-container": "#2170e4",
+                      "on-tertiary-container": "#fffbff",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#111c2d",
+                      "outline-variant": "#c2c6d6",
+                      "on-surface": "#191c1d",
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-primary-fixed-variant": "#004395",
+                      "inverse-surface": "#2e3132",
+                      "secondary-fixed-dim": "#bcc7de",
+                      "on-error-container": "#93000a",
+                      "background": "#f8f9fa",
+                      "on-surface-variant": "#424754",
+                      "secondary-container": "#d5e0f8",
+                      "surface": "#f8f9fa"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "md": "16px",
+                      "xl": "32px",
+                      "2xl": "48px",
+                      "3xl": "64px",
+                      "lg": "24px",
+                      "xs": "4px"
+              },
+              "fontFamily": {
+                      "display": [
+                              "Inter"
+                      ],
+                      "code": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "h3": [
+                              "Inter"
+                      ],
+                      "h1": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "h2": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "display": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "code": [
+                              "13px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "h3": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "h1": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.015em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "26px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "h2": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "22px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen overflow-hidden flex flex-col md:flex-row">
+<!-- TopAppBar (Mobile Only) -->
+<header class="md:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-blue-600 dark:text-blue-400 font-['Inter'] antialiased text-sm docked full-width top-0 z-40 h-16 border-b border-slate-200 dark:border-slate-800 shadow-sm sticky top-0 flex items-center justify-between px-6 gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xl">school</span>
+<span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">HeySir PFE-Link</span>
+</div>
+<div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200 ease-in-out p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200 ease-in-out p-2 rounded-full relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200 ease-in-out p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-slate-200 object-cover" data-alt="close-up portrait of a professional man in a business casual outfit, neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOC9p6GBlCw_15MIX-aOcSgaeAmWKWP7Xv6Vxb8Ttw5QEaDA5vQ6AM4MRWWSaVagYYc6EdkyBi19pEye6YEQ1B1iT1N2sar6yeVz0VALHOmb__jODByT7KZP_yYpvaXW7ObO0ZPMNx5xOEJbaelSDeTRzpDOR63-lC-gECiNF2VM_vZN4ub6-K2Oh6CMPP6WB2Dwy_g4J9rYPPSa2POHRfrmZ0Ywfvru08ZXv-mr_l6MBsZXOhdeof8do-t-LdGLDxUX0URbYBJg"/>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<nav class="hidden md:flex bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-['Inter'] text-[13px] font-medium fixed left-0 top-0 h-screen w-[280px] z-50 border-r border-slate-200 dark:border-slate-800 flex flex-col py-6 space-y-1">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">school</span>
+</div>
+<div>
+<h1 class="text-xl font-black text-slate-900 dark:text-white leading-tight">HeySir PFE-Link</h1>
+<p class="text-[11px] text-slate-500 uppercase tracking-wider font-semibold">Management Portal</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto space-y-1 px-4">
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="folder_shared">folder_shared</span>
+<span>Projects</span>
+</a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="group">group</span>
+<span>Students</span>
+</a>
+<a class="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-r-2 border-blue-600 rounded-r-none hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200 flex items-center gap-3 px-4 py-2" href="#">
+<span class="material-symbols-outlined" data-icon="school" data-weight="fill">school</span>
+<span>Advisors</span>
+<span class="ml-auto bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
+</a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="leaderboard">leaderboard</span>
+<span>Analytics</span>
+</a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<div class="px-4 pt-4 border-t border-slate-200 dark:border-slate-800 space-y-1">
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="contact_support">contact_support</span>
+<span>Support</span>
+</a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200 flex items-center gap-3 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[280px] h-full overflow-y-auto bg-background p-6 md:p-8 xl:p-10">
+<div class="max-w-[1200px] mx-auto w-full space-y-8">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-h1 text-h1 text-on-background mb-1">Incoming Supervision Requests</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Review and manage student proposals for final year projects.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 text-sm bg-surface-container-lowest border border-surface-variant rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-on-surface placeholder:text-outline-variant" placeholder="Search requests..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest border border-surface-variant rounded-lg text-sm font-medium text-on-surface hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                        Filter
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout for Requests -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Quick Stats -->
+<div class="xl:col-span-1 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl border border-surface-variant p-6 shadow-sm">
+<h3 class="font-label-md text-label-md uppercase text-on-surface-variant mb-4 tracking-wider">Request Status Overview</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-sm text-on-surface">
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+                                    Pending Review
+                                </div>
+<span class="font-semibold text-on-background text-lg">12</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5">
+<div class="bg-tertiary-container h-1.5 rounded-full" style="width: 45%"></div>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2 text-sm text-on-surface">
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+                                    Accepted
+                                </div>
+<span class="font-semibold text-on-background text-lg">24</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 80%"></div>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2 text-sm text-on-surface">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+                                    Rejected
+                                </div>
+<span class="font-semibold text-on-background text-lg">3</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5">
+<div class="bg-error h-1.5 rounded-full" style="width: 15%"></div>
+</div>
+</div>
+</div>
+<div class="bg-primary-fixed rounded-xl border border-primary-fixed-dim p-6 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-8xl" data-weight="fill">lightbulb</span>
+</div>
+<h3 class="font-h3 text-h3 text-on-primary-fixed mb-2 relative z-10">Capacity Alert</h3>
+<p class="font-body-sm text-body-sm text-on-primary-fixed-variant relative z-10">You are currently advising 4 out of your maximum 5 recommended groups. Consider your workload before accepting new requests.</p>
+</div>
+</div>
+<!-- Main Data Table Area -->
+<div class="xl:col-span-2 bg-surface-container-lowest rounded-xl border border-surface-variant shadow-sm overflow-hidden flex flex-col">
+<div class="px-6 py-4 border-b border-surface-variant flex justify-between items-center bg-surface-bright">
+<h2 class="font-h3 text-h3 text-on-surface">Pending Requests</h2>
+<span class="text-xs font-medium bg-surface-container px-2.5 py-1 rounded-full text-on-surface-variant">Showing 4 of 12</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-surface-variant">
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-medium">Student / Team</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-medium">Project Title</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-medium">Submitted</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-medium text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Student profile" class="w-8 h-8 rounded-full border border-surface-variant object-cover" data-alt="close-up portrait of a young female student smiling slightly, neutral soft background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF2vwTP9nBlYKtOcDRm51P3oRbLgyWtfTReSRoMszyoOlt6hoMAEEBAV7Rx1uX2Gq6lJLpGs-slLanKf04pIdUsqEdX3j1zrkrDZjjRfF1H7PzdeZ41TdMRgvodRDsdpPa-xRxMU7BLQPTxZ-zc8Y79oN3fpOlvyzlXHu8ZpkyjsnSiCwNqHSgP5XVJ8NSqd7GMxRzNWcXeiH8dito1fOjl5UZTSW5o2ZyJAajLRGlFCyQkJqrCbm04HSdpbLyXm0PKrh1RlItRQ"/>
+<div>
+<p class="font-medium text-sm text-on-surface">Sarah Jenkins</p>
+<p class="text-xs text-on-surface-variant">Computer Science</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="font-medium text-sm text-on-surface mb-0.5 line-clamp-1">AI-Driven Predictive Maintenance for IoT Devices</p>
+<div class="flex gap-2">
+<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container">Machine Learning</span>
+<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container">IoT</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-on-surface">Oct 24, 2023</p>
+<p class="text-xs text-on-surface-variant">2 days ago</p>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-variant flex items-center justify-center text-on-surface transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container hover:bg-error hover:text-on-error flex items-center justify-center text-on-error-container transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-primary-container hover:bg-primary flex items-center justify-center text-on-primary-container transition-colors" title="Accept">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex -space-x-2">
+<img alt="Student profile" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest object-cover z-10" data-alt="close-up portrait of a young male student, professional lighting, light background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXZbbpW_z6uyzNUwoVaEMItz0EHiTgAFAtLWcbvl52cHde8RN3y61Oc4py8OcPaJq2o9zk-FcGQXbRuK6hPzu9VZ5dMrI2XYXPKq0k-fTb-JeVzPiJckD_QJisnJVeOoml9aIjWQ0PL2LxxrMDqDe9tauZ5hYkLjCnWT09ZM6aw6FEdtsJrWsFRrwZDkpgdXTlWlcwAaJPdV4KtnLYbcslmT6yuXy2h2otyItnXbywkZGjYp-oekY-n5dv97USLPvCxc_zsgThlA"/>
+<img alt="Student profile" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest object-cover z-0" data-alt="close-up portrait of a young female student, professional lighting, light background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrKsZ_0p55BEfq6qA4qD9AxWy5vSVvqb8i6IFpj4DAHfR6eTif_iLMdFuzAKLTk53LGmh5ztg_xYrTtFQ0QGWAB8MlmX38TVVV1EsimPdKCHm64cf7B97RXA-FnRCfIpfMbX6bPgVWT3itCo_iotXzpfKKvG7AJOAH3aLbxIyIExAg6VQSkJNVVS_RZagEGm7qYPbWc61Vs0UVBRsFLJbKsCE0FhXaky_r-1ejjLV6EW1z7COF4vQ46NsLhFgBWYzpvJVu5tRrew"/>
+</div>
+<div>
+<p class="font-medium text-sm text-on-surface">Team Alpha (2)</p>
+<p class="text-xs text-on-surface-variant">Software Eng.</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="font-medium text-sm text-on-surface mb-0.5 line-clamp-1">Decentralized Voting System using Blockchain</p>
+<div class="flex gap-2">
+<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container">Blockchain</span>
+<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container">Security</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-on-surface">Oct 23, 2023</p>
+<p class="text-xs text-on-surface-variant">3 days ago</p>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-variant flex items-center justify-center text-on-surface transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container hover:bg-error hover:text-on-error flex items-center justify-center text-on-error-container transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-primary-container hover:bg-primary flex items-center justify-center text-on-primary-container transition-colors" title="Accept">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant font-medium text-xs border border-surface-variant">
+                                                MK
+                                            </div>
+<div>
+<p class="font-medium text-sm text-on-surface">Michael Kwan</p>
+<p class="text-xs text-on-surface-variant">Data Science</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="font-medium text-sm text-on-surface mb-0.5 line-clamp-1">Urban Traffic Flow Optimization Optimization</p>
+<div class="flex gap-2">
+<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container">Data Analysis</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-on-surface">Oct 20, 2023</p>
+<p class="text-xs text-on-surface-variant">6 days ago</p>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-variant flex items-center justify-center text-on-surface transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container hover:bg-error hover:text-on-error flex items-center justify-center text-on-error-container transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-primary-container hover:bg-primary flex items-center justify-center text-on-primary-container transition-colors" title="Accept">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Student profile" class="w-8 h-8 rounded-full border border-surface-variant object-cover" data-alt="close-up portrait of a young male student with glasses, smiling, bright office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ5E5zdp97OX6uu8nSXdUY06sT7k-R79us7MjH9iio3d8dmPqgKW6XII2PQsx-xCHXSH2EDvNPwTW19mRYewAnphblr5iKk9-6iY8ARU6ak95EYxriB92HpxlQ3vOo9O5Pr6jYEfoWHcJcrIigD1guAi5taof7GTPE7lmwyQzNwgQzB0pNlKEk2Ybuo27IeWLdrrZ7M2rRzpBwTbC88d7zuFZ9kH-iyZwvCEOyaIWHHb9ttumNTeOPvCuHjV-xEVZamXVUdEmMPg"/>
+<div>
+<p class="font-medium text-sm text-on-surface">David Chen</p>
+<p class="text-xs text-on-surface-variant">Computer Science</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="font-medium text-sm text-on-surface mb-0.5 line-clamp-1">Cross-Platform AR Educational Application</p>
+<div class="flex gap-2">
+<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container">AR/VR</span>
+<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container">Mobile App</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-on-surface">Oct 19, 2023</p>
+<p class="text-xs text-on-surface-variant">1 week ago</p>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-variant flex items-center justify-center text-on-surface transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-error-container hover:bg-error hover:text-on-error flex items-center justify-center text-on-error-container transition-colors" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-primary-container hover:bg-primary flex items-center justify-center text-on-primary-container transition-colors" title="Accept">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-6 py-4 border-t border-surface-variant bg-surface-container-lowest flex items-center justify-between mt-auto">
+<span class="text-sm text-on-surface-variant">Showing 1 to 4 of 12 results</span>
+<div class="flex gap-1">
+<button class="px-3 py-1 border border-surface-variant rounded-md text-sm text-outline-variant cursor-not-allowed bg-surface-container-low" disabled="">Previous</button>
+<button class="px-3 py-1 bg-primary text-on-primary rounded-md text-sm font-medium">1</button>
+<button class="px-3 py-1 border border-surface-variant hover:bg-surface-container rounded-md text-sm text-on-surface transition-colors">2</button>
+<button class="px-3 py-1 border border-surface-variant hover:bg-surface-container rounded-md text-sm text-on-surface transition-colors">3</button>
+<button class="px-3 py-1 border border-surface-variant hover:bg-surface-container rounded-md text-sm text-on-surface transition-colors">Next</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

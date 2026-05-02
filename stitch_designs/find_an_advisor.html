@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HeySir PFE-Link - Advisor Selection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-tertiary-fixed": "#311400",
+                        "surface-container": "#edeeef",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "primary": "#0058be",
+                        "tertiary": "#924700",
+                        "surface-dim": "#d9dadb",
+                        "outline": "#727785",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-primary-container": "#fefcff",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#191c1d",
+                        "secondary": "#545f73",
+                        "on-secondary-container": "#586377",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container-low": "#f3f4f5",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#b75b00",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-tint": "#005ac2",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-primary": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-primary-fixed": "#001a42",
+                        "primary-container": "#2170e4",
+                        "on-tertiary-container": "#fffbff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#111c2d",
+                        "outline-variant": "#c2c6d6",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary-fixed-variant": "#004395",
+                        "inverse-surface": "#2e3132",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9fa",
+                        "on-surface-variant": "#424754",
+                        "secondary-container": "#d5e0f8",
+                        "surface": "#f8f9fa"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "3xl": "64px",
+                        "lg": "24px",
+                        "xs": "4px"
+                    },
+                    fontFamily: {
+                        "display": ["Inter"],
+                        "code": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "h3": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    fontSize: {
+                        "display": ["30px", { lineHeight: "38px", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "code": ["13px", { lineHeight: "20px", fontWeight: "500" }],
+                        "body-sm": ["13px", { lineHeight: "20px", fontWeight: "400" }],
+                        "h3": ["16px", { lineHeight: "24px", fontWeight: "600" }],
+                        "h1": ["24px", { lineHeight: "32px", letterSpacing: "-0.015em", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "26px", fontWeight: "400" }],
+                        "h2": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "500" }],
+                        "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<!-- SideNavBar (Web Only) -->
+<nav class="hidden md:flex fixed left-0 top-0 h-screen w-[280px] z-50 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col py-6 space-y-1">
+<!-- Header -->
+<div class="px-6 pb-6 border-b border-slate-200 dark:border-slate-800 mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container text-on-primary-container rounded-lg flex items-center justify-center font-bold font-h3 text-h3">
+                    HL
+                </div>
+<div>
+<h1 class="text-xl font-black text-slate-900 dark:text-white font-display text-display" style="font-size: 1.125rem; line-height: 1.5rem;">HeySir PFE-Link</h1>
+<p class="font-['Inter'] text-[13px] font-medium text-slate-500 dark:text-slate-400">Management Portal</p>
+</div>
+</div>
+</div>
+<!-- Main Tabs -->
+<div class="flex-1 flex flex-col space-y-1 overflow-y-auto px-2">
+<a class="flex items-center gap-3 font-['Inter'] text-[13px] font-medium text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 font-['Inter'] text-[13px] font-medium text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">folder_shared</span>
+                Projects
+            </a>
+<a class="flex items-center gap-3 font-['Inter'] text-[13px] font-medium text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">group</span>
+                Students
+            </a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 font-['Inter'] text-[13px] font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-r-2 border-blue-600 rounded-r-none transition-all duration-200 py-2 pl-4 pr-2 mx-2 rounded-l-lg" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">school</span>
+                Advisors
+            </a>
+<a class="flex items-center gap-3 font-['Inter'] text-[13px] font-medium text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">leaderboard</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 font-['Inter'] text-[13px] font-medium text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">settings</span>
+                Settings
+            </a>
+</div>
+<!-- Footer Tabs -->
+<div class="px-2 mt-auto pt-4 border-t border-slate-200 dark:border-slate-800">
+<a class="flex items-center gap-3 font-['Inter'] text-[13px] font-medium text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">contact_support</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 font-['Inter'] text-[13px] font-medium text-slate-500 dark:text-slate-400 px-4 py-2 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg mx-2 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">logout</span>
+                Logout
+            </a>
+</div>
+</nav>
+<!-- TopAppBar (Mobile Only - Simplified for this layout as sidebar is primary nav paradigm) -->
+<div class="md:hidden sticky top-0 flex items-center justify-between px-6 gap-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md full-width z-40 h-16 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-900 dark:text-white" style="font-variation-settings: 'FILL' 0;">menu</span>
+<span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white font-display">HeySir PFE-Link</span>
+</div>
+<div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200 ease-in-out p-1 rounded-full cursor-pointer" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="material-symbols-outlined hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200 ease-in-out p-1 rounded-full cursor-pointer" style="font-variation-settings: 'FILL' 0;">help_outline</span>
+<img alt="User profile" class="w-8 h-8 rounded-full ml-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-0u5y_ZyyeXGTNbDNKz90fPl2-Od779lb8fpDdwYKS-v0GnrM_JQPglyd9ad8txKqpnN33Gwm0aurYCccezjiJFavYw0Lq9j6fUDaK-CEMOJgUS-ksy5e_ZYsZnAhBGxhRBR84EQSfl83QV0b8OTu-JNr_JeALMP5LbVwTqvhu68XGrBxU3wTxsdqCHLvrNAsG3uX_JD0f5cQxsvTGqZ2DzT_PdZRUpZ_GvICldd0BUMu1xtJXPThEezx9d1EB15gAXNvhCtnng"/>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-[280px] p-6 lg:p-10 w-full max-w-[1440px] mx-auto min-h-screen">
+<!-- Page Header -->
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<nav aria-label="Breadcrumb" class="flex text-slate-500 font-label-md text-label-md mb-2">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a class="inline-flex items-center hover:text-slate-900" href="#">Department</a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+<a class="hover:text-slate-900" href="#">Computer Science</a>
+</div>
+</li>
+<li aria-current="page">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+<span class="text-slate-900 font-medium">Advisors</span>
+</div>
+</li>
+</ol>
+</nav>
+<h2 class="font-h1 text-h1 text-slate-900">Select an Advisor</h2>
+<p class="font-body-lg text-body-lg text-slate-500 mt-1">Review faculty profiles and submit a supervision request for your Final Year Project.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 font-code text-code hover:bg-slate-50 transition-colors shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
+<span class="material-symbols-outlined text-[18px]">sort</span>
+                    Sort By
+                </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-code text-code hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Request
+                </button>
+</div>
+</div>
+<!-- Filters Section -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-md mb-8 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md items-end">
+<!-- Search -->
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-xs" for="search">Search Faculty</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border border-surface-variant rounded-lg leading-5 bg-white placeholder-outline focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition duration-150 ease-in-out font-body-sm text-body-sm" id="search" name="search" placeholder="Search by name, research area..." type="text"/>
+</div>
+</div>
+<!-- Specialty Filter -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-xs" for="specialty">Specialty</label>
+<select class="block w-full pl-3 pr-10 py-2 text-base border-surface-variant focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm rounded-lg font-body-sm text-body-sm bg-white border" id="specialty" name="specialty">
+<option>All Specialties</option>
+<option>Machine Learning</option>
+<option>Software Engineering</option>
+<option>Cybersecurity</option>
+<option>Data Science</option>
+</select>
+</div>
+<!-- Rank Filter -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-xs" for="rank">Academic Rank</label>
+<select class="block w-full pl-3 pr-10 py-2 text-base border-surface-variant focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm rounded-lg font-body-sm text-body-sm bg-white border" id="rank" name="rank">
+<option>All Ranks</option>
+<option>Professor</option>
+<option>Associate Professor</option>
+<option>Assistant Professor</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Advisors Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-lg">
+<!-- Advisor Card 1 -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-lg flex flex-col shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),_0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:border-primary-fixed-dim transition-all duration-200">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-surface-variant shrink-0 bg-surface-container-low flex items-center justify-center">
+<!-- Placeholder for actual image -->
+<span class="material-symbols-outlined text-[32px] text-outline">person</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-surface">Dr. Alan Turing</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Professor</p>
+</div>
+</div>
+<div class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-1 rounded font-label-md text-label-md flex items-center gap-1 border border-primary-fixed-dim">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                        Available
+                    </div>
+</div>
+<div class="mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase mb-2">Research Areas</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant rounded font-body-sm text-[11px] leading-none">Machine Learning</span>
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant rounded font-body-sm text-[11px] leading-none">Cryptography</span>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant">
+<div class="flex justify-between items-center mb-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Supervision Slots</span>
+<span class="font-code text-code text-on-surface">3 <span class="text-outline">/ 5</span></span>
+</div>
+<!-- Progress Rail -->
+<div class="w-full bg-surface-variant h-1 rounded-full mb-4 overflow-hidden">
+<div class="bg-primary h-1 rounded-full" style="width: 60%"></div>
+</div>
+<button class="w-full py-2 bg-white border border-surface-variant rounded-lg text-on-surface font-code text-code hover:bg-surface-container-low transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.05)] flex justify-center items-center gap-2">
+                        Request Supervision
+                    </button>
+</div>
+</div>
+<!-- Advisor Card 2 -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-lg flex flex-col shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),_0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:border-primary-fixed-dim transition-all duration-200">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-surface-variant shrink-0 bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-outline">person</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-surface">Dr. Grace Hopper</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Associate Professor</p>
+</div>
+</div>
+<div class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-label-md flex items-center gap-1 border border-surface-variant">
+<span class="material-symbols-outlined text-[14px]">hourglass_empty</span>
+                        Limited
+                    </div>
+</div>
+<div class="mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase mb-2">Research Areas</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant rounded font-body-sm text-[11px] leading-none">Software Eng</span>
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant rounded font-body-sm text-[11px] leading-none">Compilers</span>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant">
+<div class="flex justify-between items-center mb-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Supervision Slots</span>
+<span class="font-code text-code text-on-surface">4 <span class="text-outline">/ 5</span></span>
+</div>
+<div class="w-full bg-surface-variant h-1 rounded-full mb-4 overflow-hidden">
+<div class="bg-tertiary h-1 rounded-full" style="width: 80%"></div>
+</div>
+<button class="w-full py-2 bg-white border border-surface-variant rounded-lg text-on-surface font-code text-code hover:bg-surface-container-low transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.05)] flex justify-center items-center gap-2">
+                        Request Supervision
+                    </button>
+</div>
+</div>
+<!-- Advisor Card 3 -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-xl p-lg flex flex-col shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),_0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:border-primary-fixed-dim transition-all duration-200 opacity-75">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-surface-variant shrink-0 bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-outline">person</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-surface text-outline">Dr. John von Neumann</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Professor</p>
+</div>
+</div>
+<div class="bg-error-container text-on-error-container px-2 py-1 rounded font-label-md text-label-md flex items-center gap-1 border border-error/20">
+<span class="material-symbols-outlined text-[14px]">block</span>
+                        Full
+                    </div>
+</div>
+<div class="mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase mb-2">Research Areas</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant rounded font-body-sm text-[11px] leading-none">Game Theory</span>
+<span class="px-2 py-1 bg-surface-container-low text-on-surface border border-surface-variant rounded font-body-sm text-[11px] leading-none">Architecture</span>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-surface-variant">
+<div class="flex justify-between items-center mb-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Supervision Slots</span>
+<span class="font-code text-code text-on-surface">5 <span class="text-outline">/ 5</span></span>
+</div>
+<div class="w-full bg-surface-variant h-1 rounded-full mb-4 overflow-hidden">
+<div class="bg-error h-1 rounded-full" style="width: 100%"></div>
+</div>
+<button class="w-full py-2 bg-surface-container-low border border-surface-variant rounded-lg text-outline font-code text-code cursor-not-allowed flex justify-center items-center gap-2" disabled="">
+                        Cannot Request
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

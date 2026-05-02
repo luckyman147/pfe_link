@@ -1,0 +1,14 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.import.maven.enabled": true,
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "java.import.projectGenerator.forceBuild": true,
+    "java.project.sourcePaths": [
+        "backend/auth-service",
+        "backend/api-gateway",
+        "backend/academic-service",
+        "backend/pfelink-monolith/src/main/java/com/pfelink/monolith"
+    ]
+}

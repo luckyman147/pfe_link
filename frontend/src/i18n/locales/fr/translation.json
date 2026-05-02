@@ -1,0 +1,26 @@
+{
+  "onboarding": {
+    "title": "Complétez votre profil",
+    "student_card": "Carte d'étudiant",
+    "supervision_capacity": "Capacité d'encadrement",
+    "submit": "Démarrer"
+  },
+  "auth": {
+    "login": "Connexion",
+    "signup": "S'inscrire",
+    "logout": "Déconnexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirm_password": "Confirmer le mot de passe",
+    "forgot_password": "Mot de passe oublié ?"
+  },
+  "pfe": {
+    "title": "Gestion des PFEs",
+    "create": "Proposer un PFE",
+    "places": "Places",
+    "apply": "Postuler",
+    "loading": "Chargement...",
+    "no_pfes": "Aucun PFE disponible pour le moment.",
+    "dashboard_title": "Tableau de bord des PFEs"
+  }
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OTP Verification - HeySir PFE-Link</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-tertiary-fixed": "#311400",
+                        "surface-container": "#edeeef",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "primary": "#0058be",
+                        "tertiary": "#924700",
+                        "surface-dim": "#d9dadb",
+                        "outline": "#727785",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-primary-container": "#fefcff",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#191c1d",
+                        "secondary": "#545f73",
+                        "on-secondary-container": "#586377",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container-low": "#f3f4f5",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#b75b00",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-tint": "#005ac2",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-primary": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-primary-fixed": "#001a42",
+                        "primary-container": "#2170e4",
+                        "on-tertiary-container": "#fffbff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#111c2d",
+                        "outline-variant": "#c2c6d6",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary-fixed-variant": "#004395",
+                        "inverse-surface": "#2e3132",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9fa",
+                        "on-surface-variant": "#424754",
+                        "secondary-container": "#d5e0f8",
+                        "surface": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "3xl": "64px",
+                        "lg": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "display": ["Inter"],
+                        "code": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "h3": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "code": ["13px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "h3": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "h1": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "h2": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom hide spin buttons for number inputs to maintain clean look */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex items-center justify-center p-md font-sans antialiased text-on-surface">
+<main class="w-full max-w-[440px] flex flex-col items-center">
+<!-- Brand / Header Anchor -->
+<div class="mb-xl flex flex-col items-center">
+<span class="material-symbols-outlined text-[32px] text-primary mb-sm" style="font-variation-settings: 'FILL' 1;">security</span>
+<h1 class="font-display text-display text-on-surface text-center">HeySir PFE-Link</h1>
+</div>
+<!-- Verification Card -->
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-sm border border-surface-variant p-xl sm:p-2xl">
+<div class="text-center mb-lg">
+<h2 class="font-h2 text-h2 text-on-surface mb-xs">Verification</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Enter the 6-digit code sent to your email.</p>
+</div>
+<form class="flex flex-col gap-xl">
+<!-- OTP Inputs Container -->
+<!-- Note: Demonstrating states across the inputs for design reference -->
+<div class="flex justify-between items-center gap-xs sm:gap-sm">
+<!-- Standard Input (Filled) -->
+<input class="w-10 sm:w-12 h-12 sm:h-14 text-center font-h2 text-h2 text-on-surface bg-surface-container-lowest border border-outline-variant rounded focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="number" value="4"/>
+<!-- Standard Input (Filled) -->
+<input class="w-10 sm:w-12 h-12 sm:h-14 text-center font-h2 text-h2 text-on-surface bg-surface-container-lowest border border-outline-variant rounded focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="number" value="8"/>
+<!-- Active/Focus State -->
+<input autofocus="" class="w-10 sm:w-12 h-12 sm:h-14 text-center font-h2 text-h2 text-on-surface bg-surface-container-lowest border border-primary ring-1 ring-primary rounded focus:outline-none transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="number"/>
+<!-- Default Empty State -->
+<input class="w-10 sm:w-12 h-12 sm:h-14 text-center font-h2 text-h2 text-on-surface bg-surface-container-lowest border border-surface-variant rounded focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="number"/>
+<!-- Error State Placeholder -->
+<input class="w-10 sm:w-12 h-12 sm:h-14 text-center font-h2 text-h2 text-error bg-error-container/20 border border-error rounded focus:outline-none focus:ring-1 focus:ring-error transition-all shadow-sm placeholder-error/50" inputmode="numeric" maxlength="1" pattern="[0-9]*" placeholder="!" type="number"/>
+<!-- Success State Placeholder (Visual cue via border/ring within design system constraints) -->
+<input class="w-10 sm:w-12 h-12 sm:h-14 text-center font-h2 text-h2 text-on-surface bg-surface-container-lowest border border-outline-variant rounded focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm" inputmode="numeric" maxlength="1" pattern="[0-9]*" type="number" value="7"/>
+</div>
+<!-- Error Message Placeholder -->
+<!-- Toggled visibility based on state -->
+<div class="flex items-center gap-xs text-error -mt-md">
+<span class="material-symbols-outlined text-[16px]">error</span>
+<span class="font-body-sm text-body-sm">Invalid code. Please check and try again.</span>
+</div>
+<!-- Submit Action -->
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary py-md rounded-lg font-label-md text-label-md transition-colors shadow-sm flex items-center justify-center gap-sm" type="button">
+                    Verify Code
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Actions -->
+<div class="mt-xl pt-lg border-t border-surface-variant flex flex-col items-center justify-center gap-xs">
+<p class="font-body-sm text-body-sm text-on-surface-variant">Didn't receive the code?</p>
+<div class="flex items-center gap-xs">
+<button class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors focus:outline-none" type="button">
+                        Resend Code
+                    </button>
+<span class="font-code text-code text-outline">(00:59)</span>
+</div>
+</div>
+</div>
+<!-- Minimal Footer for Context -->
+<div class="mt-lg text-center">
+<a class="font-body-sm text-body-sm text-outline hover:text-on-surface transition-colors flex items-center justify-center gap-xs" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                Back to Login
+            </a>
+</div>
+</main>
+</body></html>

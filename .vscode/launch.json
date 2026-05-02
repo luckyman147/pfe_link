@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PfeLinkApplication<pfelink-monolith>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.pfelink.monolith.PfeLinkApplication",
+            "projectName": "pfelink-monolith",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
