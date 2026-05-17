@@ -60,6 +60,16 @@ server:
       - application/json
       - text/html
       - text/xml
+  http2:
+    enabled: true
+  # SSL/TLS Configuration (required for production)
+  # Uncomment and configure for HTTPS in production
+  # ssl:
+  #   enabled: true
+  #   key-store: ${SSL_KEYSTORE_PATH:classpath:keystore.p12}
+  #   key-store-password: ${SSL_KEYSTORE_PASSWORD:}
+  #   key-store-type: PKCS12
+  #   key-alias: tomcat
 
 # Cloudinary Storage
 cloudinary:
