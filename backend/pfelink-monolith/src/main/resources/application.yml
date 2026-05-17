@@ -57,11 +57,11 @@ spring:
         jwt:
           # Microsoft Entra External ID JWKS endpoint
           # Replace {tenant-id} with your actual Entra tenant ID
-          jwk-set-uri: "${ENTRA_JWKS_URI:https://ciamlogin.com/tenant-id/discovery/v2.0/keys}"
+          jwk-set-uri: "${ENTRA_JWKS_URI:https://ciamlogin.com/7af38bd4-da09-4cad-b870-0617a2df54d4/discovery/v2.0/keys}"
           # Issuer URI for token validation
-          issuer-uri: "${ENTRA_ISSUER_URI:https://ciamlogin.com/tenant-id/v2.0}"
+          issuer-uri: "${ENTRA_ISSUER_URI:https://ciamlogin.com/7af38bd4-da09-4cad-b870-0617a2df54d4/v2.0}"
           # Application (client) ID from Entra app registration
-          audiences: "${ENTRA_CLIENT_ID:your-client-id}"
+          audiences: "${ENTRA_CLIENT_ID:38d3cd96-2ead-4cb3-bec9-8be9aecb71d9"
 
 server:
   port: 8081
@@ -75,7 +75,7 @@ server:
 
 # Cloudinary Storage
 cloudinary:
-  cloud_name: ${CLOUDINARY_CLOUD_NAME:cloud_name}
+  cloud_name: ${CLOUDINARY_CLOUD_NAME:dtjzttuo1}
   api_key: ${CLOUDINARY_API_KEY:api_key}
   api_secret: ${CLOUDINARY_API_SECRET:api_secret}
 

@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Primary Database:** PostgreSQL (HikariCP pooling)
 - **Cache/Queue:** Redis
 - **File Storage:** Cloudinary
-- **Auth:** JWT-based with Spring Security
+- **Auth:** OAuth2 Resource Server with Microsoft Entra External ID
 
 **Architecture Style:** Hexagonal (Ports & Adapters) with CQRS + Domain-Driven Design layers:
 - `api/` → REST Controllers (request → Response)
@@ -203,6 +203,65 @@ Spring `@EventListener` pattern for decoupled operations:
 - Timeout: 2000ms
 - Currently unconfigured for `@Cacheable` — add as needed
 
+## OAuth2 Resource Server (Microsoft Entra External ID)
+
+**Token Validation Flow:**
+1. Client receives Microsoft Entra ID token via OIDC login to `ciamlogin.com`
+2. Client includes access token in `Authorization: Bearer <token>` header
+3. Spring Security validates token against Microsoft's JWKS endpoint
+4. Token claims (oid, email, roles) extracted via `EntraClaimsExtractor`
+5. Spring Security authorities created from roles
+6. `@PreAuthorize` annotations enforce role-based access control
+
+**Configuration (application.yml):**
+```yaml
+spring.security.oauth2.resourceserver.jwt:
+  jwk-set-uri: "https://ciamlogin.com/{tenant-id}/discovery/v2.0/keys"
+  issuer-uri: "https://ciamlogin.com/{tenant-id}/v2.0"
+  audiences: "your-app-client-id"
+```
+
+**Key Components:**
+- `SecurityConfig` — OAuth2 Resource Server setup, CORS, stateless session policy
+- `EntraClaimsExtractor` — Maps Microsoft token claims (oid, email, roles) to application domain
+- `EntraSecurityValidator` — Additional validation (issuer, audience, expiry, oid checks)
+- `RefreshTokenHandler` — Exchanges refresh tokens for new access tokens via Microsoft endpoint
+- `@PreAuthorize("hasRole('ROLE_NAME')")` — Declarative role-based access control on endpoints
+
+**User Entity:**
+- `azureId` field stores the 'oid' (object ID) from Microsoft Entra, uniquely identifying users
+- Repository methods: `findByEmail()`, `findByAzureId()`
+- Tokens validated against Microsoft's key set; no local secret management needed
+
+**Protected Endpoints Example:**
+```java
+@RestController
+@RequestMapping("/api/faculty")
+public class FacultyController {
+    @GetMapping
+    @PreAuthorize("isAuthenticated()")  // Any authenticated user
+    public ResponseEntity<?> getAllFaculties() { ... }
+
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")   // Admin only
+    public ResponseEntity<?> createFaculty(...) { ... }
+}
+```
+
+**Token Refresh:**
+- POST `/api/auth/refresh-oauth2` with `{"refreshToken": "..."}` returns new access token
+- Handles Microsoft's OAuth2 refresh token flow automatically
+
+**Security Best Practices (Entra vs Legacy JWT):**
+- ✅ Key rotation handled by Microsoft (no local key management)
+- ✅ Tokens validated against live JWKS endpoint
+- ✅ Issuer and audience validation prevents token misuse
+- ✅ `oid` claim uniquely identifies users in Entra, immutable
+- ✅ Stateless validation: no session storage needed
+- ✅ HTTPS-only in production; tokens never over HTTP
+- ✅ CORS configured for frontend origin(s) only
+- ✅ Role-based access enforced via `@PreAuthorize` (not string comparison)
+
 ## Code Quality & Constraints (from .cursor/rules/)
 
 ### SOLID Principles (Mandatory)
@@ -254,11 +313,13 @@ public class UserService {
 ```
 
 ### Security Checklist
-- JWT tokens in Authorization header only
-- Passwords hashed via `BCryptPasswordEncoder`
+- OAuth2 tokens (from Microsoft Entra) in Authorization header only
+- Passwords hashed via `BCryptPasswordEncoder` for local storage
 - `@PreAuthorize` SpEL used sparingly, no complex logic
 - Stateless auth (no sessions in Spring Security)
+- Token validation against Microsoft's JWKS endpoint (no local secret key)
 - CORS configured in `application.yml` (dev origins only)
+- Issuer, audience, expiry, and oid claims validated before processing
 
 ### File & Code Organization
 - Max 100 lines per file — break into smaller classes/methods
