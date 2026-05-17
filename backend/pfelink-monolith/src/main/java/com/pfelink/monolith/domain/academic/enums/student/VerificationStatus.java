@@ -1,4 +1,4 @@
-package com.pfelink.monolith.domain.academic.enums;
+package com.pfelink.monolith.domain.academic.enums.student;
 
 public enum VerificationStatus {
     PENDING,
