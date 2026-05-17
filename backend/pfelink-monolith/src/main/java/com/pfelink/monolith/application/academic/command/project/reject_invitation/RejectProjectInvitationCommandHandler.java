@@ -1,7 +1,7 @@
 package com.pfelink.monolith.application.academic.command.project.reject_invitation;
 
 import com.pfelink.monolith.domain.academic.entity.project.ProjectInvitation;
-import com.pfelink.monolith.domain.academic.enums.ProjectInvitationStatus;
+import com.pfelink.monolith.domain.academic.enums.project.ProjectInvitationStatus;
 import com.pfelink.monolith.domain.academic.repository.IProjectInvitationRepository;
 import com.pfelink.monolith.shared.cqrs.ICommandHandler;
 import com.pfelink.monolith.shared.result.Error;

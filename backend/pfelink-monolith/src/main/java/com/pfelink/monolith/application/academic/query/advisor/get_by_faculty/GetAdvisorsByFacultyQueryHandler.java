@@ -1,7 +1,7 @@
 package com.pfelink.monolith.application.academic.query.advisor.get_by_faculty;
 
 import com.pfelink.monolith.application.academic.dto.response.AdvisorProfileResponse;
-import com.pfelink.monolith.domain.academic.enums.VerificationStatus;
+import com.pfelink.monolith.domain.academic.enums.student.VerificationStatus;
 import com.pfelink.monolith.domain.academic.repository.IAdvisorAssignmentRepository;
 import com.pfelink.monolith.shared.cqrs.IQueryHandler;
 import com.pfelink.monolith.shared.result.Result;

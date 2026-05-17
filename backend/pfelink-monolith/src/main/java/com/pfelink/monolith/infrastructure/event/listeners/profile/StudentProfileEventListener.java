@@ -1,7 +1,7 @@
 package com.pfelink.monolith.infrastructure.event.listeners.profile;
 
 import com.pfelink.monolith.domain.academic.entity.profile.StudentProfile;
-import com.pfelink.monolith.domain.academic.enums.StudentStatus;
+import com.pfelink.monolith.domain.academic.enums.student.StudentStatus;
 import com.pfelink.monolith.domain.academic.repository.IFacultyRepository;
 import com.pfelink.monolith.domain.academic.repository.IStudentProfileRepository;
 import com.pfelink.monolith.domain.auth.enums.UserRole;

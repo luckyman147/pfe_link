@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -28,7 +27,6 @@ public class ProjectController {
     private final Dispatcher dispatcher;
 
     @PostMapping
-    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     @Operation(summary = "Create a new project (Student)")
     public ResponseEntity<?> createProject(@RequestBody CreateProjectRequest request) {
         return ResponseUtil.toResponse(dispatcher.send(new CreateProjectCommand(
@@ -39,7 +37,6 @@ public class ProjectController {
     }
 
     @PostMapping("/invite")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     @Operation(summary = "Invite a friend to a project (Student Owner)")
     public ResponseEntity<?> inviteFriend(@RequestBody InviteFriendRequest request) {
         return ResponseUtil.toResponse(dispatcher.send(new InviteFriendCommand(

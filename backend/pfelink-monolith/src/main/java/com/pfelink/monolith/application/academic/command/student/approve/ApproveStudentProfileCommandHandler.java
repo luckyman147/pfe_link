@@ -1,7 +1,7 @@
 package com.pfelink.monolith.application.academic.command.student.approve;
 
 import com.pfelink.monolith.domain.academic.entity.profile.StudentProfile;
-import com.pfelink.monolith.domain.academic.enums.StudentStatus;
+import com.pfelink.monolith.domain.academic.enums.student.StudentStatus;
 import com.pfelink.monolith.domain.academic.repository.IStudentProfileRepository;
 import com.pfelink.monolith.infrastructure.event.events.faculty.StudentProfileApprovedEvent;
 import com.pfelink.monolith.shared.cqrs.ICommandHandler;

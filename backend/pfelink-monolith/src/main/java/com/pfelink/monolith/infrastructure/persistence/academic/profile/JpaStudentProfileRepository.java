@@ -1,7 +1,6 @@
 package com.pfelink.monolith.infrastructure.persistence.academic.profile;
 
 import com.pfelink.monolith.domain.academic.entity.profile.StudentProfile;
-import com.pfelink.monolith.domain.academic.enums.StudentStatus;
 import com.pfelink.monolith.domain.academic.repository.IStudentProfileRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +39,7 @@ public class JpaStudentProfileRepository implements IStudentProfileRepository {
 
     @Override
     public List<StudentProfile> findAllPending() {
-        return springRepo.findByStatus(StudentStatus.PENDING);
+        return springRepo.findByStatus(com.pfelink.monolith.domain.academic.enums.student.StudentStatus.PENDING);
     }
 
     @Override

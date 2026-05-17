@@ -3,7 +3,7 @@ package com.pfelink.monolith.application.academic.command.approve_faculty_assign
 import com.pfelink.monolith.domain.academic.entity.assignment.FacultyAssignment;
 import com.pfelink.monolith.domain.academic.entity.assignment.FacultyAssignmentId;
 import com.pfelink.monolith.domain.academic.entity.season.Season;
-import com.pfelink.monolith.domain.academic.enums.AssignmentStatus;
+import com.pfelink.monolith.domain.academic.enums.faculty.AssignmentStatus;
 import com.pfelink.monolith.domain.academic.repository.IFacultyAssignmentRepository;
 import com.pfelink.monolith.domain.academic.repository.ISeasonRepository;
 import com.pfelink.monolith.infrastructure.event.events.assignment.FacultyAssignmentApprovedEvent;

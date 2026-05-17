@@ -1,7 +1,6 @@
 package com.pfelink.monolith.infrastructure.persistence.academic.project;
 
 import com.pfelink.monolith.domain.academic.entity.project.ProjectInvitation;
-import com.pfelink.monolith.domain.academic.enums.ProjectInvitationStatus;
 import com.pfelink.monolith.domain.academic.repository.IProjectInvitationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,7 +18,7 @@ public class JpaProjectInvitationRepository implements IProjectInvitationReposit
     @Override public List<ProjectInvitation> findByInviteeUserId(UUID userId) { return springRepo.findByInviteeUserId(userId); }
     @Override public List<ProjectInvitation> findByProjectId(UUID projectId) { return springRepo.findByProjectId(projectId); }
     @Override
-    public List<ProjectInvitation> findByInviteeUserIdAndStatus(UUID userId, ProjectInvitationStatus status) {
+    public List<ProjectInvitation> findByInviteeUserIdAndStatus(UUID userId, com.pfelink.monolith.domain.academic.enums.project.ProjectInvitationStatus status) {
         return springRepo.findAllByInviteeUserIdAndStatus(userId, status);
     }
 }

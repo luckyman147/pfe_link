@@ -1,7 +1,6 @@
 package com.pfelink.monolith.infrastructure.persistence.academic.assignment;
 
 import com.pfelink.monolith.domain.academic.entity.assignment.AdvisorAssignment;
-import com.pfelink.monolith.domain.academic.enums.VerificationStatus;
 import com.pfelink.monolith.domain.academic.repository.IAdvisorAssignmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,8 +18,8 @@ public class JpaAdvisorAssignmentRepository implements IAdvisorAssignmentReposit
     @Override public AdvisorAssignment save(AdvisorAssignment a) { return springRepo.save(a); }
     @Override public Optional<AdvisorAssignment> findById(UUID id) { return springRepo.findById(id); }
     @Override public int incrementStudentCount(UUID id) { return springRepo.incrementStudentCount(id); }
-    @Override public List<AdvisorAssignment> findAllPending() { return springRepo.findByStatus(VerificationStatus.PENDING); }
-    @Override public List<AdvisorAssignment> findByFacultyIdAndStatus(UUID facultyId, VerificationStatus status) {
+    @Override public List<AdvisorAssignment> findAllPending() { return springRepo.findByStatus(com.pfelink.monolith.domain.academic.enums.student.VerificationStatus.PENDING); }
+    @Override public List<AdvisorAssignment> findByFacultyIdAndStatus(UUID facultyId, com.pfelink.monolith.domain.academic.enums.student.VerificationStatus status) {
         return springRepo.findByFacultyIdAndStatus(facultyId, status);
     }
 }

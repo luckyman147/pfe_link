@@ -2,7 +2,7 @@ package com.pfelink.monolith.application.academic.command.project.accept_invitat
 
 import com.pfelink.monolith.domain.academic.entity.profile.StudentProfile;
 import com.pfelink.monolith.domain.academic.entity.project.ProjectInvitation;
-import com.pfelink.monolith.domain.academic.enums.ProjectInvitationStatus;
+import com.pfelink.monolith.domain.academic.enums.project.ProjectInvitationStatus;
 import com.pfelink.monolith.domain.academic.repository.IProjectInvitationRepository;
 import com.pfelink.monolith.domain.academic.repository.IStudentProfileRepository;
 import com.pfelink.monolith.shared.cqrs.ICommandHandler;

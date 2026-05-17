@@ -32,9 +32,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "azure_id", unique = true)
-    private String azureId;
-
     @Column(unique = true, nullable = false)
     private String email;
 

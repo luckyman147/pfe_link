@@ -1,7 +1,8 @@
 package com.pfelink.monolith.domain.academic.repository;
 
 import com.pfelink.monolith.domain.academic.entity.project.ProjectInvitation;
-import com.pfelink.monolith.domain.academic.enums.ProjectInvitationStatus;
+import com.pfelink.monolith.domain.academic.enums.project.ProjectInvitationStatus;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

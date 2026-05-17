@@ -4,7 +4,7 @@ import com.pfelink.monolith.domain.academic.entity.assignment.FacultyAssignment;
 import com.pfelink.monolith.domain.academic.entity.assignment.FacultyAssignmentId;
 import com.pfelink.monolith.domain.academic.entity.profile.AdvisorProfile;
 import com.pfelink.monolith.domain.academic.entity.season.Season;
-import com.pfelink.monolith.domain.academic.enums.AssignmentStatus;
+import com.pfelink.monolith.domain.academic.enums.faculty.AssignmentStatus;
 import com.pfelink.monolith.domain.academic.repository.IAdvisorProfileRepository;
 import com.pfelink.monolith.domain.academic.repository.IFacultyAssignmentRepository;
 import com.pfelink.monolith.domain.academic.repository.IFacultyRepository;

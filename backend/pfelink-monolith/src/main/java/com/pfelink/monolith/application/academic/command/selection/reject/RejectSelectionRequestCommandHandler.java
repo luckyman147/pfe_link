@@ -1,7 +1,7 @@
 package com.pfelink.monolith.application.academic.command.selection.reject;
 
 import com.pfelink.monolith.domain.academic.entity.selection.SelectionRequest;
-import com.pfelink.monolith.domain.academic.enums.SelectionStatus;
+import com.pfelink.monolith.domain.academic.enums.project.SelectionStatus;
 import com.pfelink.monolith.domain.academic.repository.ISelectionRequestRepository;
 import com.pfelink.monolith.infrastructure.event.events.selection.SelectionRequestRespondedEvent;
 import com.pfelink.monolith.shared.cqrs.ICommandHandler;

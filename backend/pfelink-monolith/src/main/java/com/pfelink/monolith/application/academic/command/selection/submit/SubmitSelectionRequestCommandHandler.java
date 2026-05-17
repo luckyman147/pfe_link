@@ -5,7 +5,8 @@ import com.pfelink.monolith.domain.academic.entity.assignment.FacultyAssignmentI
 import com.pfelink.monolith.domain.academic.entity.profile.AdvisorProfile;
 import com.pfelink.monolith.domain.academic.entity.project.Project;
 import com.pfelink.monolith.domain.academic.entity.selection.SelectionRequest;
-import com.pfelink.monolith.domain.academic.enums.SelectionStatus;
+import com.pfelink.monolith.domain.academic.enums.project.ProjectStatus;
+import com.pfelink.monolith.domain.academic.enums.project.SelectionStatus;
 import com.pfelink.monolith.domain.academic.repository.IAdvisorProfileRepository;
 import com.pfelink.monolith.domain.academic.repository.IFacultyAssignmentRepository;
 import com.pfelink.monolith.domain.academic.repository.IProjectRepository;
@@ -72,7 +73,7 @@ public class SubmitSelectionRequestCommandHandler implements ICommandHandler<Sub
 
         SelectionRequest saved = selectionRequestRepository.save(request);
         
-        project.setStatus(com.pfelink.monolith.domain.academic.enums.ProjectStatus.PENDING_ADVISOR);
+        project.setStatus(ProjectStatus.PENDING_ADVISOR);
         projectRepository.save(project);
 
         eventPublisher.publishEvent(new SelectionRequestSubmittedEvent(LocalDateTime.now(), saved));

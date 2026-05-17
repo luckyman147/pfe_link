@@ -1,8 +1,9 @@
 package com.pfelink.monolith.infrastructure.event.events.assignment;
 
-import com.pfelink.monolith.domain.academic.enums.AdvisorRole;
 
 import java.util.UUID;
+
+import com.pfelink.monolith.domain.academic.enums.faculty.AdvisorRole;
 
 public record FacultyAssignmentSubmittedEvent(
     UUID advisorId,

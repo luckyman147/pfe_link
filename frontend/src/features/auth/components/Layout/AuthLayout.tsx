@@ -41,8 +41,8 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
         />
         
         {/* Brand & Narrative Content */}
-        <div className="relative z-20 p-2xl flex flex-col h-full justify-between text-stitch-on-primary p-4">
-          <div className="flex items-center gap-4 group cursor-default">
+        <div className="relative z-20 p-2xl flex flex-col h-full justify-start text-stitch-on-primary p-8 pt-12">
+          <div className="flex items-center gap-4 group cursor-default mb-16">
             <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl transition-all duration-700 group-hover:rotate-[360deg] group-hover:bg-white/25">
               <span className="material-symbols-outlined text-[32px] text-white font-light">{icon}</span>
             </div>
@@ -51,8 +51,8 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 mt-1">Platform</span>
             </div>
           </div>
-          
-          <div className="max-w-md pb-12 animate-in fade-in slide-in-from-bottom-12 duration-1000 ease-out">
+
+          <div className="max-w-md animate-in fade-in slide-in-from-left-8 duration-1000 ease-out">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 mb-8 shadow-inner">
               <span className="flex h-2 w-2 rounded-full bg-sky-400 animate-pulse shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
               <span className="text-[11px] font-black uppercase tracking-[0.15em] text-white/90">Institutional Gateway</span>

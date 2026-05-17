@@ -11,9 +11,9 @@ public class FileValidationUtil {
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
     private static final long MAX_VIDEO_SIZE = 50 * 1024 * 1024;
 
-    private final FileTypeValidator typeValidator;
+    private static final FileTypeValidator typeValidator = new FileTypeValidator();
 
-    public void validateFile(MultipartFile file) throws FileValidationException {
+    public static void validateFile(MultipartFile file) throws FileValidationException {
         if (file == null || file.isEmpty()) {
             throw new FileValidationException("File is empty");
         }
@@ -22,7 +22,7 @@ public class FileValidationUtil {
         typeValidator.validateMimeType(file.getContentType());
     }
 
-    private void validateFileName(String filename) throws FileValidationException {
+    private static void validateFileName(String filename) throws FileValidationException {
         if (filename == null || filename.isBlank()) {
             throw new FileValidationException("Filename is required");
         }
@@ -33,7 +33,7 @@ public class FileValidationUtil {
         }
     }
 
-    private void validateFileSize(long fileSize, String mimeType) throws FileValidationException {
+    private static void validateFileSize(long fileSize, String mimeType) throws FileValidationException {
         if (fileSize == 0) {
             throw new FileValidationException("File cannot be empty");
         }

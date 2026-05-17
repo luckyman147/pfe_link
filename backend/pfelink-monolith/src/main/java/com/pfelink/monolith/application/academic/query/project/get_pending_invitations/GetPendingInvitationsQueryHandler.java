@@ -2,7 +2,7 @@ package com.pfelink.monolith.application.academic.query.project.get_pending_invi
 
 import com.pfelink.monolith.application.academic.dto.response.ProjectInvitationResponse;
 import com.pfelink.monolith.domain.academic.entity.project.ProjectInvitation;
-import com.pfelink.monolith.domain.academic.enums.ProjectInvitationStatus;
+import com.pfelink.monolith.domain.academic.enums.project.ProjectInvitationStatus;
 import com.pfelink.monolith.domain.academic.repository.IProjectInvitationRepository;
 import com.pfelink.monolith.shared.cqrs.IQueryHandler;
 import com.pfelink.monolith.shared.result.Result;

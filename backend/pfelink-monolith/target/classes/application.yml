@@ -24,10 +24,32 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    open-in-view: false  # Prevent LazyInitializationException and improve performance
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
+        # Query optimization
+        jdbc.batch_size: 20
+        jdbc.fetch_size: 50
+        order_inserts: true
+        order_updates: true
+        # Enable statistics for monitoring (can be disabled in production)
+        generate_statistics: ${HIBERNATE_STATS_ENABLED:false}
+        # Connection pooling
+        hikari.maximum-pool-size: ${DB_POOL_SIZE:30}
+        hikari.minimum-idle: ${DB_POOL_MIN_IDLE:10}
+        hikari.connection-timeout: 10000
+        # Query cache (optional, for frequently accessed immutable data)
+        cache.use_second_level_cache: true
+        cache.region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+        # Cache invalidation strategy
+        cache.use_query_cache: true
+        # Never cache entities with sensitive data - use query caching instead
+        # Cache TTLs:
+        # - Query results: 5 minutes (safe for read-only queries)
+        # - Collection caches: 1 hour (for non-sensitive collections)
+        # - Entity caches: DISABLED (no sensitive entities should be cached)
 
   flyway:
     baseline-on-migrate: true
@@ -60,6 +82,16 @@ server:
       - application/json
       - text/html
       - text/xml
+  http2:
+    enabled: true
+  # SSL/TLS Configuration (required for production)
+  # Uncomment and configure for HTTPS in production
+  # ssl:
+  #   enabled: true
+  #   key-store: ${SSL_KEYSTORE_PATH:classpath:keystore.p12}
+  #   key-store-password: ${SSL_KEYSTORE_PASSWORD:}
+  #   key-store-type: PKCS12
+  #   key-alias: tomcat
 
 # Cloudinary Storage
 cloudinary:
@@ -84,6 +116,16 @@ app:
       - http://localhost:8080
       - http://localhost:8081
 
+# JWT Configuration - REQUIRED: Set via environment variables in production
+jwt:
+  # Secret key must be Base64-encoded 256-bit (32 bytes) key for HS256
+  # Generate with: openssl rand -base64 32
+  secret: ${JWT_SECRET:}
+  # Access token validity: 15 minutes (900000 ms)
+  access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION:900000}
+  # Refresh token validity: 7 days (604800000 ms)
+  refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:604800000}
+
 logging:
   level:
     root: INFO
@@ -96,6 +138,16 @@ management:
     web:
       exposure:
         include: health,info,metrics,prometheus
+      # SECURITY: In production, restrict access to these endpoints
+      # Use network-level controls or Spring Security to:
+      # - Allow /actuator/health from load balancers (unauthenticated)
+      # - Require authentication for /actuator/metrics, /actuator/prometheus
+      # - Disable /actuator/shutdown in production
+      base-path: /actuator
+  metrics:
+    # Do not expose sensitive query parameters in metrics
+    tags:
+      application: ${spring.application.name}
 
 springdoc:
   api-docs:

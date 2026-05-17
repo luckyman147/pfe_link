@@ -4,7 +4,8 @@ import com.pfelink.monolith.domain.academic.entity.faculty.Faculty;
 import com.pfelink.monolith.domain.academic.entity.profile.AdvisorProfile;
 import com.pfelink.monolith.domain.academic.entity.project.Project;
 import com.pfelink.monolith.domain.academic.entity.season.Season;
-import com.pfelink.monolith.domain.academic.enums.SelectionStatus;
+import com.pfelink.monolith.domain.academic.enums.project.SelectionStatus;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

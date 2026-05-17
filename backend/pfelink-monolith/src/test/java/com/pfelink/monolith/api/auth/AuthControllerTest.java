@@ -3,7 +3,7 @@ package com.pfelink.monolith.api.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pfelink.monolith.application.auth.command.login.LoginCommand;
 import com.pfelink.monolith.application.auth.dto.AuthResponseDTO;
-import com.pfelink.monolith.application.auth.dto.request.LoginRequest;
+import com.pfelink.monolith.application.auth.dto.request.authentication.LoginRequest;
 import com.pfelink.monolith.domain.auth.enums.AccountStatus;
 import com.pfelink.monolith.domain.auth.enums.UserRole;
 import com.pfelink.monolith.infrastructure.security.util.CookieUtil;

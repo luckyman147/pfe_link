@@ -3,7 +3,6 @@ package com.pfelink.monolith.application.academic.command.project.create;
 import com.pfelink.monolith.domain.academic.entity.profile.StudentProfile;
 import com.pfelink.monolith.domain.academic.entity.project.Project;
 import com.pfelink.monolith.domain.academic.entity.season.Season;
-import com.pfelink.monolith.domain.academic.enums.ProjectStatus;
 import com.pfelink.monolith.domain.academic.repository.IProjectRepository;
 import com.pfelink.monolith.domain.academic.repository.ISeasonRepository;
 import com.pfelink.monolith.domain.academic.repository.IStudentProfileRepository;
@@ -48,7 +47,7 @@ public class CreateProjectCommandHandler implements ICommandHandler<CreateProjec
         project.setOwner(owner);
         project.setFaculty(owner.getFaculty());
         project.setSeason(season);
-        project.setStatus(ProjectStatus.DRAFT);
+        project.setStatus(com.pfelink.monolith.domain.academic.enums.project.ProjectStatus.DRAFT);
         
         Project saved = projectRepository.save(project);
         

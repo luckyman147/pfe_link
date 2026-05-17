@@ -1,7 +1,7 @@
 package com.pfelink.monolith.domain.academic.repository;
 
 import com.pfelink.monolith.domain.academic.entity.assignment.AdvisorAssignment;
-import com.pfelink.monolith.domain.academic.enums.VerificationStatus;
+import com.pfelink.monolith.domain.academic.enums.student.VerificationStatus;
 
 import java.util.List;
 import java.util.Optional;

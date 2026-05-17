@@ -1,6 +1,6 @@
 package com.pfelink.monolith.application.academic.command.submit_faculty_assignment;
 
-import com.pfelink.monolith.domain.academic.enums.AdvisorRole;
+import com.pfelink.monolith.domain.academic.enums.faculty.AdvisorRole;
 import com.pfelink.monolith.shared.cqrs.ICommand;
 import com.pfelink.monolith.shared.result.Result;
 

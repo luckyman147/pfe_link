@@ -10,6 +10,6 @@ public interface ISelectionRequestRepository {
     Optional<SelectionRequest> findById(UUID id);
     Optional<SelectionRequest> findByProjectId(UUID projectId);
     Optional<SelectionRequest> findByStudentUserId(UUID studentUserId);
-    java.util.List<SelectionRequest> findByAdvisorUserIdAndFacultyIdAndStatus(UUID userId, UUID facultyId, com.pfelink.monolith.domain.academic.enums.SelectionStatus status);
-    boolean existsByProjectIdAndStatus(UUID projectId, com.pfelink.monolith.domain.academic.enums.SelectionStatus status);
+    java.util.List<SelectionRequest> findByAdvisorUserIdAndFacultyIdAndStatus(UUID userId, UUID facultyId, com.pfelink.monolith.domain.academic.enums.project.SelectionStatus status);
+    boolean existsByProjectIdAndStatus(UUID projectId, com.pfelink.monolith.domain.academic.enums.project.SelectionStatus status);
 }

@@ -1,7 +1,7 @@
 package com.pfelink.monolith.application.academic.query.selection.get_advisor_students;
 
 import com.pfelink.monolith.domain.academic.entity.selection.SelectionRequest;
-import com.pfelink.monolith.domain.academic.enums.SelectionStatus;
+import com.pfelink.monolith.domain.academic.enums.project.SelectionStatus;
 import com.pfelink.monolith.domain.academic.repository.ISelectionRequestRepository;
 import com.pfelink.monolith.shared.cqrs.IQueryHandler;
 import com.pfelink.monolith.shared.result.Result;

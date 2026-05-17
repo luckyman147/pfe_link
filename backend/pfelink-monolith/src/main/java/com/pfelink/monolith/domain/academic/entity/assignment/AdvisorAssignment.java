@@ -2,7 +2,8 @@ package com.pfelink.monolith.domain.academic.entity.assignment;
 
 import com.pfelink.monolith.domain.academic.entity.faculty.Faculty;
 import com.pfelink.monolith.domain.academic.entity.profile.AdvisorProfile;
-import com.pfelink.monolith.domain.academic.enums.VerificationStatus;
+import com.pfelink.monolith.domain.academic.enums.student.VerificationStatus;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,7 +22,6 @@ public class FacultyController {
     private final Dispatcher dispatcher;
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getAllFaculties(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size) {
@@ -31,7 +29,6 @@ public class FacultyController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createFaculty(@Valid @RequestBody CreateFacultyRequest req) {
         Result<UUID> result = dispatcher.send(new CreateFacultyCommand(
             req.name(), 

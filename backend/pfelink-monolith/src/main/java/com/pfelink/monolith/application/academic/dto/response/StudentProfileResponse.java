@@ -1,7 +1,8 @@
 package com.pfelink.monolith.application.academic.dto.response;
 
-import com.pfelink.monolith.domain.academic.enums.StudentStatus;
 import java.util.UUID;
+
+import com.pfelink.monolith.domain.academic.enums.student.StudentStatus;
 
 public record StudentProfileResponse(
     UUID id,
