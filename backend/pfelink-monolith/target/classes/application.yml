@@ -52,10 +52,7 @@ spring:
         # - Entity caches: DISABLED (no sensitive entities should be cached)
 
   flyway:
-    baseline-on-migrate: true
-    locations: classpath:db/migration
-    repair: true
-    validate-on-migrate: false
+    enabled: false
 
   servlet:
     multipart:
