@@ -1,4 +1,4 @@
-package com.pfelink.monolith.infrastructure.config;
+package com.pfelink.monolith.infrastructure.config.database;
 
 import com.pfelink.monolith.domain.academic.entity.faculty.Faculty;
 import com.pfelink.monolith.domain.academic.repository.IFacultyRepository;

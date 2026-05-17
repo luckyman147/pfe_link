@@ -1,4 +1,4 @@
-package com.pfelink.monolith.infrastructure.config;
+package com.pfelink.monolith.infrastructure.config.cache;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;

@@ -1,4 +1,4 @@
-package com.pfelink.monolith.infrastructure.config;
+package com.pfelink.monolith.infrastructure.config.integration;
 
 import com.pfelink.monolith.infrastructure.security.config.RateLimitingInterceptor;
 import lombok.RequiredArgsConstructor;

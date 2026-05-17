@@ -1,4 +1,4 @@
-package com.pfelink.monolith.infrastructure.config;
+package com.pfelink.monolith.infrastructure.config.database;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
