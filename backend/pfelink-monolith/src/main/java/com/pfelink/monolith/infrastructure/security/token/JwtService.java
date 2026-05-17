@@ -26,17 +26,23 @@ public class JwtService {
     @Value("${jwt.refresh-token-expiration:604800000}") // 7 days
     private long refreshTokenExpiration;
 
+    private SecretKey signingKey;  // Cached (immutable secret)
+
     public String generateToken(User user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("jti", UUID.randomUUID().toString());
-        return buildToken(claims, user.getEmail(), accessTokenExpiration);
+        return generateToken(user, accessTokenExpiration, false);
     }
 
     public String generateRefreshToken(User user) {
+        return generateToken(user, refreshTokenExpiration, true);
+    }
+
+    private String generateToken(User user, long expiration, boolean isRefreshToken) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("jti", UUID.randomUUID().toString());
-        claims.put("type", "refresh");
-        return buildToken(claims, user.getEmail(), refreshTokenExpiration);
+        if (isRefreshToken) {
+            claims.put("type", "refresh");
+        }
+        return buildToken(claims, user.getEmail(), expiration);
     }
 
     public long getRefreshTokenExpiration() {
@@ -87,7 +93,10 @@ public class JwtService {
     }
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+        if (signingKey == null) {
+            byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+            signingKey = Keys.hmacShaKeyFor(keyBytes);
+        }
+        return signingKey;
     }
 }

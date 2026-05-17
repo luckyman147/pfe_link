@@ -24,31 +24,29 @@ public class RateLimitingInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String path = request.getRequestURI();
-
-        // Apply stricter rate limiting to auth endpoints
-        if (isAuthEndpoint(path)) {
-            String clientIp = getClientIp(request);
-            String key = RATE_LIMIT_KEY_PREFIX + "auth:" + clientIp;
-
-            Long attempts = redisTemplate.opsForValue().get(key);
-            if (attempts == null) {
-                attempts = 0L;
-            }
-
-            if (attempts >= AUTH_ENDPOINT_LIMIT) {
-                log.warn("Rate limit exceeded for auth endpoint from IP: {}", clientIp);
-                response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-                response.setContentType("application/json");
-                response.getWriter().write("{\"error\":\"Too many login attempts. Please try again later.\"}");
-                return false;
-            }
-
-            redisTemplate.opsForValue().increment(key);
-            redisTemplate.expire(key, AUTH_ENDPOINT_WINDOW, TimeUnit.SECONDS);
+        if (!isAuthEndpoint(request.getRequestURI())) {
+            return true;
         }
 
+        String clientIp = getClientIp(request);
+        String key = buildRateLimitKey(clientIp);
+        Long attempts = java.util.Objects.requireNonNullElse(redisTemplate.opsForValue().get(key), 0L);
+
+        if (attempts >= AUTH_ENDPOINT_LIMIT) {
+            log.warn("Rate limit exceeded for auth endpoint from IP: {}", clientIp);
+            response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\":\"Too many login attempts. Please try again later.\"}");
+            return false;
+        }
+
+        redisTemplate.opsForValue().increment(key);
+        redisTemplate.expire(key, AUTH_ENDPOINT_WINDOW, TimeUnit.SECONDS);
         return true;
+    }
+
+    private String buildRateLimitKey(String clientIp) {
+        return RATE_LIMIT_KEY_PREFIX + "auth:" + clientIp;
     }
 
     private boolean isAuthEndpoint(String path) {
