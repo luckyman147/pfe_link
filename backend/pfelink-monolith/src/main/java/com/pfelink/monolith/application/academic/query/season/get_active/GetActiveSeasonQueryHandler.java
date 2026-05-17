@@ -6,6 +6,7 @@ import com.pfelink.monolith.shared.cqrs.IQueryHandler;
 import com.pfelink.monolith.shared.result.Error;
 import com.pfelink.monolith.shared.result.Result;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ public class GetActiveSeasonQueryHandler implements IQueryHandler<GetActiveSeaso
     private final ISeasonRepository seasonRepository;
 
     @Override
+    @Cacheable(value = "season:active", unless = "#result.isFailure()")
     public Result<Season> handle(GetActiveSeasonQuery query) {
         return seasonRepository.findActiveSeason()
             .map(Result::success)

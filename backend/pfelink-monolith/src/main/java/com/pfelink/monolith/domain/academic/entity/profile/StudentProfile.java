@@ -36,8 +36,11 @@ public class StudentProfile {
     @Column(name = "cin_number", nullable = false, unique = true)
     private String cinNumber;
 
+    @Column(name = "faculty_id")
+    private UUID facultyId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "faculty_id")
+    @JoinColumn(name = "faculty_id", insertable = false, updatable = false)
     private Faculty faculty;
 
     @Column(name = "faculty_approved", nullable = false)
@@ -61,5 +64,6 @@ public class StudentProfile {
         this.cinNumber = cinNumber;
         this.studentCardUrl = studentCardUrl;
         this.faculty = faculty;
+        this.facultyId = faculty != null ? faculty.getId() : null;
     }
 }

@@ -37,4 +37,8 @@ public class Faculty {
 
     @Column(nullable = false)
     private boolean validated = false;
+
+    public boolean isValidated() {
+        return validated;
+    }
 }

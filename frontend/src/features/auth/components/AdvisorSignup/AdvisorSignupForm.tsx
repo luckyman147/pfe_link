@@ -2,23 +2,28 @@ import React from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import { StudentCardUpload } from '../Onboarding/StudentCardUpload';
 import type { AdvisorFormData } from '../../hooks';
+import type { Faculty } from '../../types/auth.types';
 import { AdvisorFormFields } from './AdvisorFormFields';
+import { FacultySelect } from './FacultySelect';
 
 interface AdvisorSignupFormProps {
   form: UseFormReturn<AdvisorFormData>;
+  faculties: Faculty[];
   cinUrl: string | null;
   onCinChange: (url: string, id?: string) => void;
   onSubmit: (data: AdvisorFormData) => void;
 }
 
 export const AdvisorSignupForm: React.FC<AdvisorSignupFormProps> = ({
-  form, cinUrl, onCinChange, onSubmit
+  form, faculties, cinUrl, onCinChange, onSubmit
 }) => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = form;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-      <AdvisorFormFields register={register} errors={errors} />
+      <AdvisorFormFields form={form} />
+
+      <FacultySelect form={form} faculties={faculties} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
@@ -46,8 +51,15 @@ export const AdvisorSignupForm: React.FC<AdvisorSignupFormProps> = ({
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-stitch-on-surface-variant px-1">Professional Proof (CIN)</span>
-        <StudentCardUpload cardUrl={cinUrl} onChange={onCinChange} />
+        <span className="text-sm font-medium text-stitch-on-surface-variant px-1">
+          Upload your identity card or advisor card
+        </span>
+        <StudentCardUpload
+          cardUrl={cinUrl}
+          onChange={onCinChange}
+          uploadTitle="Upload your identity card or advisor card"
+          previewAlt="Advisor identity card"
+        />
       </div>
 
       {errors.root && (

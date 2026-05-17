@@ -1,48 +1,50 @@
 import api from '@/shared/services/api';
-import type { 
-  AuthResponse, 
-  StudentRegistrationRequest, 
-  AdvisorRegistrationRequest 
+import type {
+  AuthResponse,
+  StudentRegistrationRequest,
+  AdvisorRegistrationRequest
 } from '../types/auth.types';
 import { sessionService } from './session.service';
 import type { ApiResponse } from '@/shared/types/api';
+import { AUTH_ENDPOINTS } from '@/config/endpoints';
+
+const recaptchaHeaders = (token?: string) =>
+  token ? { headers: { 'X-Recaptcha-Token': token } } : { headers: {} };
+
+const persistIfTokenized = (data: AuthResponse) => {
+  if (data.token || data.accessToken) sessionService.setSession(data);
+  return data;
+};
 
 export const registrationService = {
   registerStudent: async (data: StudentRegistrationRequest, recaptchaToken?: string): Promise<AuthResponse> => {
-    const response = await api.post<ApiResponse<AuthResponse>>('/api/auth/signup/student', data, {
-      headers: recaptchaToken ? { 'X-Recaptcha-Token': recaptchaToken } : {}
-    });
-    const resData = response.data.data;
-    if (resData.token || resData.accessToken) {
-      sessionService.setSession(resData);
-    }
-    return resData;
+    const response = await api.post<ApiResponse<AuthResponse>>(
+      AUTH_ENDPOINTS.signupStudent, data, recaptchaHeaders(recaptchaToken)
+    );
+    return persistIfTokenized(response.data.data);
   },
-
 
   registerAdvisor: async (data: AdvisorRegistrationRequest, recaptchaToken?: string): Promise<AuthResponse> => {
-    const response = await api.post<ApiResponse<AuthResponse>>('/api/auth/signup/advisor', data, {
-      headers: recaptchaToken ? { 'X-Recaptcha-Token': recaptchaToken } : {}
-    });
-    const resData = response.data.data;
-    if (resData.token || resData.accessToken) {
-      sessionService.setSession(resData);
-    }
-    return resData;
+    const response = await api.post<ApiResponse<AuthResponse>>(
+      AUTH_ENDPOINTS.signupAdvisor, data, recaptchaHeaders(recaptchaToken)
+    );
+    return persistIfTokenized(response.data.data);
   },
 
-  verifyEmail: async (token: string): Promise<string> => {
-    const response = await api.get<ApiResponse<string>>('/api/auth/verify-email', { params: { token } });
+  verifyEmail: async (token: string): Promise<boolean> => {
+    const response = await api.post<ApiResponse<boolean>>(AUTH_ENDPOINTS.verifyEmail, null, {
+      params: { token },
+    });
     return response.data.data;
   },
 
   resendVerification: async (email: string): Promise<string> => {
-    const response = await api.post<ApiResponse<string>>('/api/auth/resend-verification', null, { params: { email } });
+    const response = await api.post<ApiResponse<string>>(AUTH_ENDPOINTS.resendVerify, null, { params: { email } });
     return response.data.data;
   },
 
   verifyOtp: async (email: string, otpCode: string): Promise<AuthResponse> => {
-    const response = await api.post<ApiResponse<AuthResponse>>('/api/auth/verify-otp', { email, otpCode });
+    const response = await api.post<ApiResponse<AuthResponse>>(AUTH_ENDPOINTS.verifyOtp, { email, otpCode });
     return response.data.data;
   }
 };

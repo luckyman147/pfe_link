@@ -46,7 +46,8 @@ public class RegistrationController {
         }
         return ResponseUtil.toResponse(dispatcher.send(RegisterAdvisorCommand.of(
             req.email(), req.password(), req.fullName(),
-            req.telephone(), req.cinNumber(), req.cinCardUrl(), req.draftId()
+            req.telephone(), req.cinNumber(), req.cinCardUrl(), req.draftId(),
+            req.facultyId(), req.facultyDomainEmail()
         )));
     }
 

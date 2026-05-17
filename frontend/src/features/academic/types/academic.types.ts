@@ -47,10 +47,8 @@ export interface AdvisorProfile {
 }
 
 export interface SubmitSelectionRequest {
-  studentUserId: string;
+  projectId: string;
   advisorProfileId: string;
-  facultyId: string;
-  projectTitle: string;
   message: string;
 }
 

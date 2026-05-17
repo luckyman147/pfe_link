@@ -3,6 +3,8 @@ package com.pfelink.monolith.infrastructure.persistence.academic.faculty;
 import com.pfelink.monolith.domain.academic.entity.faculty.PendingFaculty;
 import com.pfelink.monolith.domain.academic.repository.IPendingFacultyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,4 +23,5 @@ public class JpaPendingFacultyRepository implements IPendingFacultyRepository {
     @Override public Optional<PendingFaculty> findByEmail(String e) { return springRepo.findByEmail(e); }
     @Override public void deleteById(UUID id) { springRepo.deleteById(id); }
     @Override public List<PendingFaculty> findAll() { return springRepo.findAll(); }
+    @Override public Page<PendingFaculty> findAll(Pageable pageable) { return springRepo.findAll(pageable); }
 }

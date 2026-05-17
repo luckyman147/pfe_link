@@ -22,8 +22,10 @@ public class FacultyController {
     private final Dispatcher dispatcher;
 
     @GetMapping
-    public ResponseEntity<?> getAllFaculties() {
-        return ResponseUtil.toResponse(dispatcher.query(new GetAllFacultiesQuery()));
+    public ResponseEntity<?> getAllFaculties(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size) {
+        return ResponseUtil.toResponse(dispatcher.query(new GetAllFacultiesQuery(page, size)));
     }
 
     @PostMapping

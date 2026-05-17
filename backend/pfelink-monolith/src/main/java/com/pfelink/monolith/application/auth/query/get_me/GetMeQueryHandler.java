@@ -11,6 +11,7 @@ import com.pfelink.monolith.shared.result.Error;
 import com.pfelink.monolith.shared.result.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +22,15 @@ public class GetMeQueryHandler implements IQueryHandler<GetMeQuery, Result<UserD
     private final IAdvisorProfileRepository advisorProfileRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Result<UserDTO> handle(GetMeQuery query) {
-        return userRepository.findById(query.userId())
-                .map(this::mapToDTO)
-                .orElseGet(() -> Result.failure(Error.notFound("User not found")));
+        try {
+            return userRepository.findById(query.userId())
+                    .map(this::mapToDTO)
+                    .orElseGet(() -> Result.failure(Error.notFound("User not found")));
+        } catch (Exception e) {
+            return Result.failure(Error.failure("Error.InternalError", "Failed to fetch user: " + e.getMessage()));
+        }
     }
 
     private Result<UserDTO> mapToDTO(User user) {

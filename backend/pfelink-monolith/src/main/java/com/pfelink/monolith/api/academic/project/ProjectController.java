@@ -5,7 +5,9 @@ import com.pfelink.monolith.api.academic.project.dto.InviteFriendRequest;
 import com.pfelink.monolith.application.academic.command.project.accept_invitation.AcceptProjectInvitationCommand;
 import com.pfelink.monolith.application.academic.command.project.create.CreateProjectCommand;
 import com.pfelink.monolith.application.academic.command.project.invite_friend.InviteFriendCommand;
+import com.pfelink.monolith.application.academic.command.project.reject_invitation.RejectProjectInvitationCommand;
 import com.pfelink.monolith.application.academic.query.project.get_by_student.GetStudentProjectQuery;
+import com.pfelink.monolith.application.academic.query.project.get_pending_invitations.GetPendingInvitationsQuery;
 import com.pfelink.monolith.shared.cqrs.Dispatcher;
 import com.pfelink.monolith.infrastructure.api.ResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,10 +46,24 @@ public class ProjectController {
         )));
     }
 
+    @GetMapping("/invitations/me")
+    @Operation(summary = "Get all pending project invitations for current student")
+    public ResponseEntity<?> getMyPendingInvitations() {
+        return ResponseUtil.toResponse(dispatcher.query(new GetPendingInvitationsQuery(
+            com.pfelink.monolith.infrastructure.security.util.SecurityUtils.getCurrentUserId()
+        )));
+    }
+
     @PostMapping("/invitations/{id}/accept")
     @Operation(summary = "Accept a project invitation (Invited Student)")
     public ResponseEntity<?> acceptInvitation(@PathVariable UUID id) {
         return ResponseUtil.toResponse(dispatcher.send(new AcceptProjectInvitationCommand(id)));
+    }
+
+    @PostMapping("/invitations/{id}/reject")
+    @Operation(summary = "Reject a project invitation (Invited Student)")
+    public ResponseEntity<?> rejectInvitation(@PathVariable UUID id) {
+        return ResponseUtil.toResponse(dispatcher.send(new RejectProjectInvitationCommand(id)));
     }
 
     @GetMapping("/me")

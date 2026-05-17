@@ -34,8 +34,8 @@ public class JwtService {
         return Jwts.builder()
                 .claims(extraClaims)
                 .id(UUID.randomUUID().toString())
-                .subject(user.getEmail())
-                .claim("userId", user.getId().toString())
+                .subject(user.getId().toString())
+                .claim("email", user.getEmail())
                 .claim("role", user.getRole().name())
                 .claim("fullName", user.getFullName())
                 .issuedAt(new Date())
@@ -44,8 +44,28 @@ public class JwtService {
                 .compact();
     }
 
+    public String extractSubject(String token) {
+        return extractUsername(token);
+    }
+
+    public String extractEmail(String token) {
+        return extractClaim(token, claims -> claims.get("email", String.class));
+    }
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String generateRefreshToken(User user) {
+        return Jwts.builder()
+                .id(UUID.randomUUID().toString())
+                .subject(user.getEmail())
+                .claim("userId", user.getId().toString())
+                .claim("type", "refresh")
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .signWith(getSigningKey())
+                .compact();
     }
 
     public String extractJti(String token) {

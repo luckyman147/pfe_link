@@ -35,7 +35,7 @@ public class ForgotPasswordCommandHandler
         }
 
         otpRepository.invalidateAllUserOtps(user.getId());
-        String otp = otpService.generateOtp(5);
+        String otp = otpService.generateOtp(6);
 
         PasswordResetOtp otpEntity = new PasswordResetOtp();
         otpEntity.setUserId(user.getId());

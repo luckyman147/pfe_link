@@ -1,5 +1,7 @@
 package com.pfelink.monolith.infrastructure.config;
 
+import com.pfelink.monolith.domain.academic.entity.faculty.Faculty;
+import com.pfelink.monolith.domain.academic.repository.IFacultyRepository;
 import com.pfelink.monolith.domain.auth.entity.User;
 import com.pfelink.monolith.domain.auth.enums.AccountStatus;
 import com.pfelink.monolith.domain.auth.enums.UserRole;
@@ -18,6 +20,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private final IUserRepository userRepository;
     private final com.pfelink.monolith.domain.academic.repository.ISeasonRepository seasonRepository;
+    private final IFacultyRepository facultyRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${app.admin.default-email:iyedtouati@gmail.com}")
@@ -52,5 +55,28 @@ public class DataInitializer implements CommandLineRunner {
             seasonRepository.save(defaultSeason);
             log.info("Default active academic season created: {}", defaultSeason.getName());
         }
+
+        seedFacultyIfAbsent("Faculty of Sciences of Tunis", "FST",
+            "contact@fst.utm.tn", "https://www.fst.rnu.tn");
+        seedFacultyIfAbsent("National Institute of Applied Sciences and Technology", "INSAT",
+            "contact@insat.rnu.tn", "https://www.insat.rnu.tn");
+        seedFacultyIfAbsent("Faculty of Economics and Management of Tunis", "FSEGT",
+            "contact@fsegt.rnu.tn", "https://www.fsegt.rnu.tn");
+        seedFacultyIfAbsent("Higher Institute of Computer Science", "ISI",
+            "contact@isi.rnu.tn", "https://www.isi.rnu.tn");
+    }
+
+    private void seedFacultyIfAbsent(String name, String abbreviation, String email, String websiteUrl) {
+        if (facultyRepository.existsByName(name)) {
+            return;
+        }
+        Faculty f = new Faculty();
+        f.setName(name);
+        f.setAbbreviation(abbreviation);
+        f.setEmail(email);
+        f.setWebsiteUrl(websiteUrl);
+        f.setValidated(true);
+        facultyRepository.save(f);
+        log.info("Seeded faculty: {} ({})", name, abbreviation);
     }
 }

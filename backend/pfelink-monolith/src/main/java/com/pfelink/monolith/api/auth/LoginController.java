@@ -3,21 +3,19 @@ package com.pfelink.monolith.api.auth;
 import com.pfelink.monolith.application.auth.command.login.LoginCommand;
 import com.pfelink.monolith.application.auth.command.refresh_token.RefreshTokenCommand;
 import com.pfelink.monolith.application.auth.dto.AuthResponseDTO;
+import com.pfelink.monolith.application.auth.dto.TokenResponseDTO;
 import com.pfelink.monolith.application.auth.dto.request.LoginRequest;
 import com.pfelink.monolith.application.auth.dto.request.RefreshTokenRequest;
 import com.pfelink.monolith.application.auth.query.get_me.GetMeQuery;
 import com.pfelink.monolith.domain.auth.entity.User;
 import com.pfelink.monolith.infrastructure.api.ResponseUtil;
-import com.pfelink.monolith.infrastructure.security.token.JwtService;
 import com.pfelink.monolith.infrastructure.security.service.RecaptchaService;
-import com.pfelink.monolith.infrastructure.security.token.TokenBlacklistService;
 import com.pfelink.monolith.infrastructure.security.util.CookieUtil;
 import com.pfelink.monolith.shared.cqrs.Dispatcher;
 import com.pfelink.monolith.shared.result.Error;
 import com.pfelink.monolith.shared.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -37,8 +33,6 @@ public class LoginController {
     private final Dispatcher dispatcher;
     private final CookieUtil cookieUtil;
     private final RecaptchaService recaptchaService;
-    private final TokenBlacklistService blacklistService;
-    private final JwtService jwtService;
 
     @GetMapping("/me")
     @Operation(summary = "Get the current logged in user's profile")
@@ -66,11 +60,8 @@ public class LoginController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
-        String token = extractToken(request);
-        if (token != null && jwtService.isTokenValid(token)) {
-            blacklistService.blacklistToken(jwtService.extractJti(token), jwtService.extractExpiration(token));
-        }
         cookieUtil.clearTokenCookies(response);
+        SecurityContextHolder.clearContext();
         return ResponseEntity.ok().body("Logged out successfully");
     }
 
@@ -82,19 +73,11 @@ public class LoginController {
         if (refreshToken == null) {
             return ResponseUtil.toResponse(Result.failure(Error.validation("Refresh token is missing")));
         }
-        Result<AuthResponseDTO> result = dispatcher.send(new RefreshTokenCommand(refreshToken));
+        Result<TokenResponseDTO> result = dispatcher.send(new RefreshTokenCommand(refreshToken));
         if (result.isSuccess()) {
-            cookieUtil.setTokenCookies(response, result.getValue().token(), result.getValue().refreshToken());
+            cookieUtil.setTokenCookies(response, result.getValue().accessToken(), result.getValue().refreshToken());
         }
         return ResponseUtil.toResponse(result);
     }
 
-    private String extractToken(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) return header.substring(7);
-        if (request.getCookies() != null) {
-            for (var c : request.getCookies()) if ("access_token".equals(c.getName())) return c.getValue();
-        }
-        return null;
-    }
 }

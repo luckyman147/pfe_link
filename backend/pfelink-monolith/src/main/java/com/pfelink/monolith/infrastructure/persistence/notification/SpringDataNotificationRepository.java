@@ -6,7 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface SpringDataNotificationRepository extends JpaRepository<Notification, UUID> {
@@ -20,6 +23,11 @@ public interface SpringDataNotificationRepository extends JpaRepository<Notifica
     @Modifying
     @Query("UPDATE Notification n SET n.read = true WHERE n.userId = :userId AND n.read = false")
     void markAllAsRead(String userId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Notification n SET n.read = true WHERE n.id IN :ids AND n.userId = :userId")
+    int batchMarkAsRead(@Param("ids") List<UUID> ids, @Param("userId") String userId);
 
     void deleteByIdAndUserId(UUID id, String userId);
 }

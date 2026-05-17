@@ -10,6 +10,7 @@ import com.pfelink.monolith.shared.cqrs.ICommandHandler;
 import com.pfelink.monolith.shared.result.Error;
 import com.pfelink.monolith.shared.result.Result;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class ApproveFacultyCommandHandler
 
     @Override
     @Transactional
+    @CacheEvict(value = "faculties:page", allEntries = true)
     public Result<UUID> handle(ApproveFacultyCommand cmd) {
         PendingFaculty pending = pendingRepo.findById(cmd.pendingFacultyId())
             .orElse(null);

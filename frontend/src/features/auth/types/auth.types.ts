@@ -1,160 +1,116 @@
-/**
- * Auth types matching the PFE-Link Authentication Service API
- * Based on OpenAPI spec v1.0.0
- */
-
-// ============================================
-// ENUMS (using const objects for compatibility)
-// ============================================
-
-export const UserRole = {
-  ADMIN: 'ADMIN',
-  ADVISOR: 'ADVISOR',
-  STUDENT: 'STUDENT'
-} as const;
-
-export type UserRole = typeof UserRole[keyof typeof UserRole];
-
-export const AccountStatus = {
-  ACTIVE: 'ACTIVE',
-  PENDING: 'PENDING',
-  SUSPENDED: 'SUSPENDED'
-} as const;
-
-export type AccountStatus = typeof AccountStatus[keyof typeof AccountStatus];
-
-export const VerificationStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
-} as const;
-
-export type VerificationStatus = typeof VerificationStatus[keyof typeof VerificationStatus];
+import type { UserRole, AccountStatus } from './enums';
 
 // ============================================
 // REQUEST TYPES
 // ============================================
 
-export interface LoginRequest {
+export type LoginRequest = {
   email: string;
   password: string;
-}
+};
 
-export interface StudentRegistrationRequest {
+export type StudentRegistrationRequest = {
   email: string;
   password: string;
   fullName: string;
   telephone: string;
   cinNumber: string;
-  studentCardUrl?: string;
-  draftId?: string;
   facultyId: string;
-}
+};
 
-export interface Faculty {
-  id: string;
-  name: string;
-  abbreviation: string;
-  governorate: string;
-  city: string;
-}
-
-export interface AdvisorRegistrationRequest {
+export type AdvisorRegistrationRequest = {
   email: string;
   password: string;
   fullName: string;
   telephone: string;
-  cinNumber: string;
-  cinCardUrl?: string;
-  draftId?: string;
-}
+};
 
-export interface ForgotPasswordRequest {
+export type ForgotPasswordRequest = {
   email: string;
-}
+};
 
-export interface VerifyOtpRequest {
+export type VerifyOtpRequest = {
   email: string;
-  otpCode: string;
-}
+  otp: string;
+};
 
-export interface ResetPasswordRequest {
-  email: string;
-  otpCode: string;
+export type ResetPasswordRequest = {
+  token: string;
   newPassword: string;
-}
+};
 
-export interface ChangePasswordRequest {
+export type ChangePasswordRequest = {
   currentPassword: string;
   newPassword: string;
-}
+};
 
-export interface UpdateStudentProfileRequest {
-  fullName: string;
-  facultyName?: string;
-  facultyLocation?: string;
-  telephone?: string;
-}
+export type RefreshTokenRequest = {
+  refreshToken?: string;
+};
 
-export interface UpdateAdvisorProfileRequest {
-  department?: string;
-  specialization?: string;
+export type UpdateStudentProfileRequest = {
+  fullName?: string;
   telephone?: string;
-}
+  facultyId?: string;
+};
+
+export type UpdateAdvisorProfileRequest = {
+  fullName?: string;
+  telephone?: string;
+};
 
 // ============================================
 // RESPONSE TYPES
 // ============================================
 
-export interface AuthResponse {
-  userId?: string;
+export type AuthResponse = {
   id?: string;
+  userId?: string;
   email?: string;
   fullName?: string;
-  role?: string;
+  role?: UserRole;
   status?: AccountStatus;
-  accessToken?: string;
   token?: string;
+  accessToken?: string;
   refreshToken?: string;
-  message?: string;
-}
+};
 
-export interface User {
+// Refresh response - tokens only (no user info)
+export type RefreshTokenResponse = {
+  accessToken: string;
+  refreshToken: string;
+};
+
+// ============================================
+// USER TYPE
+// ============================================
+
+export type User = {
   id: string;
   email: string;
   fullName: string;
-  password?: string;
-  imageUrl?: string;
-  telephone?: string;
   role: UserRole;
   status: AccountStatus;
   emailVerified?: boolean;
-  emailVerificationToken?: string;
+  imageUrl?: string;
+  telephone?: string;
   studentProfile?: StudentProfile;
   advisorProfile?: AdvisorProfile;
-  createdAt?: string;
-  updatedAt?: string;
-}
+};
 
-export interface StudentProfile {
+export type StudentProfile = {
   id: string;
-  user?: User;
   fullName: string;
   studentCardUrl?: string;
   facultyName?: string;
   facultyLocation?: string;
-  verificationStatus: VerificationStatus;
-  rejectionReason?: string;
-  verifiedBy?: User;
-  verifiedAt?: string;
-}
+  verificationStatus: string;
+};
 
-export interface AdvisorProfile {
+export type AdvisorProfile = {
   id: string;
-  user?: User;
   fullName: string;
-  capacity: number;
-  currentStudents?: number;
-  department?: string;
+  telephone?: string;
   specialization?: string;
-}
+  department?: string;
+};

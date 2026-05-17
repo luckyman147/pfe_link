@@ -1,6 +1,8 @@
 package com.pfelink.monolith.infrastructure.persistence.academic.project;
 
 import com.pfelink.monolith.domain.academic.entity.project.ProjectInvitation;
+import com.pfelink.monolith.domain.academic.enums.ProjectInvitationStatus;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.UUID;
@@ -8,4 +10,8 @@ import java.util.UUID;
 public interface SpringDataProjectInvitationRepository extends JpaRepository<ProjectInvitation, UUID> {
     List<ProjectInvitation> findByInviteeUserId(UUID userId);
     List<ProjectInvitation> findByProjectId(UUID projectId);
+    List<ProjectInvitation> findByInviteeUserIdAndStatus(UUID userId, ProjectInvitationStatus status);
+
+    @EntityGraph(attributePaths = {"project", "project.owner"})
+    List<ProjectInvitation> findAllByInviteeUserIdAndStatus(UUID userId, ProjectInvitationStatus status);
 }

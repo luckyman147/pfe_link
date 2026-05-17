@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import api from '@/shared/services/api';
+import { ACADEMIC_ENDPOINTS } from '@/config/endpoints';
 import { 
   Plus, 
   Search, 
@@ -21,8 +22,8 @@ export const FacultyManagement = () => {
 
     const fetchFaculties = async () => {
         try {
-            const response = await api.get('/api/faculties');
-            setFaculties(response.data);
+            const response = await api.get(ACADEMIC_ENDPOINTS.faculties);
+            setFaculties(response.data?.data ?? response.data);
         } catch (error) {
             console.error("Failed to fetch faculties", error);
         } finally {

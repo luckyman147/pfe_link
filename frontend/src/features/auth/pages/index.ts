@@ -3,5 +3,7 @@ export * from './Login/UserTypeSelection';
 export * from './Signup/StudentSignup';
 export * from './Signup/AdvisorSignup';
 export * from './Recovery/ForgotPassword';
+export * from './Recovery/ResetPassword';
 export * from './Recovery/OTPVerification';
 export * from './Verification/MustVerifyEmail';
+export * from './Verification/VerifyEmailConfirm';

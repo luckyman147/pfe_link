@@ -7,7 +7,7 @@ export const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   return (
-    <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col gap-6" onSubmit={(e) => { e.preventDefault(); handleSubmit(onSubmit)(); }}>
       <div className="flex flex-col gap-2">
         <label className="text-sm font-bold text-stitch-on-surface-variant px-1 flex items-center gap-2" htmlFor="email">
           <span className="material-symbols-outlined text-[18px]">alternate_email</span>

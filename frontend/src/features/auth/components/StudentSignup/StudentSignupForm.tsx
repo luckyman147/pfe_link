@@ -25,7 +25,7 @@ export const StudentSignupForm: React.FC<StudentSignupFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-      <IdentityFields register={register} errors={errors} />
+      <IdentityFields form={form} />
       <AcademicFields register={register} errors={errors} faculties={faculties} />
 
       <div className="flex flex-col gap-1.5">

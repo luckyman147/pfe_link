@@ -17,8 +17,11 @@ public class EmailService {
     @Value("${spring.mail.username:iyedtouati@gmail.com}")
     private String fromEmail;
 
+    @Value("${app.frontend.url:http://localhost:5173}")
+    private String frontendUrl;
+
     public void sendVerificationEmail(String to, String name, String token) {
-        String link = "http://localhost:8080/api/auth/verify-email?token=" + token;
+        String link = buildFrontendVerifyEmailLink(token);
         String html = buildTemplate("Email Verification",
                 "Hello " + name + ", please verify your email by clicking the link below:",
                 link, "Verify Email");
@@ -162,6 +165,15 @@ public class EmailService {
                 + ";font-weight:bold'>" + status.toLowerCase() + "</span>.",
             "http://localhost:3000/login", "Check Status");
         send(studentEmail, "Selection Request Update: " + status, html);
+    }
+
+    private String buildFrontendVerifyEmailLink(String token) {
+        String base = (frontendUrl == null || frontendUrl.isBlank())
+            ? "http://localhost:5173" : frontendUrl.stripTrailing();
+        if (base.endsWith("/")) {
+            base = base.substring(0, base.length() - 1);
+        }
+        return base + "/auth/verify-email/confirm?token=" + token;
     }
 
     private void send(String to, String subject, String html) {

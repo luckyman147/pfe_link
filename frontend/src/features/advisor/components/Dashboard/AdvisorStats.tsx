@@ -1,7 +1,13 @@
 import React from 'react';
 import { FolderOpen, Mail, Users } from 'lucide-react';
 
-export const AdvisorStats: React.FC = () => {
+interface AdvisorStatsProps {
+  pending: number;
+  approved: number;
+  total: number;
+}
+
+export const AdvisorStats: React.FC<AdvisorStatsProps> = ({ pending, approved, total }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div className="bg-surface-container-lowest rounded-3xl border border-outline-variant/30 p-8 shadow-sm hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-500 group relative overflow-hidden">
@@ -12,13 +18,13 @@ export const AdvisorStats: React.FC = () => {
           </div>
           <div className="flex flex-col items-end gap-1">
             <span className="bg-primary/10 text-primary font-bold text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full border border-primary/10">
-              +2 this week
+              +{pending > 0 ? 2 : 0} this week
             </span>
           </div>
         </div>
         <div className="mt-8 relative z-10">
           <p className="text-[11px] font-black text-on-surface-variant/50 uppercase tracking-[0.2em]">Active Projects</p>
-          <h2 className="text-5xl font-black text-on-surface mt-2 tracking-tighter">12</h2>
+          <h2 className="text-5xl font-black text-on-surface mt-2 tracking-tighter">{approved}</h2>
         </div>
       </div>
 
@@ -28,13 +34,15 @@ export const AdvisorStats: React.FC = () => {
           <div className="w-14 h-14 rounded-2xl bg-tertiary/10 flex items-center justify-center text-tertiary group-hover:bg-tertiary group-hover:text-on-tertiary transition-all duration-500 shadow-inner">
             <Mail className="w-7 h-7" />
           </div>
-          <span className="bg-error/10 text-error font-bold text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full border border-error/10 animate-pulse">
-            Action Required
-          </span>
+          {pending > 0 ? (
+            <span className="bg-error/10 text-error font-bold text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full border border-error/10 animate-pulse">
+              Action Required
+            </span>
+          ) : null}
         </div>
         <div className="mt-8 relative z-10">
           <p className="text-[11px] font-black text-on-surface-variant/50 uppercase tracking-[0.2em]">Pending Requests</p>
-          <h2 className="text-5xl font-black text-on-surface mt-2 tracking-tighter">5</h2>
+          <h2 className="text-5xl font-black text-on-surface mt-2 tracking-tighter">{pending}</h2>
         </div>
       </div>
 
@@ -51,7 +59,7 @@ export const AdvisorStats: React.FC = () => {
         <div className="mt-8 relative z-10">
           <p className="text-[11px] font-black text-on-surface-variant/50 uppercase tracking-[0.2em]">Students Supervised</p>
           <div className="flex items-end gap-2 mt-2">
-            <h2 className="text-5xl font-black text-on-surface tracking-tighter">18</h2>
+            <h2 className="text-5xl font-black text-on-surface tracking-tighter">{total}</h2>
             <span className="text-xl font-bold text-on-surface-variant/40 mb-1.5">/ 20</span>
           </div>
         </div>

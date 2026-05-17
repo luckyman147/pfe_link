@@ -5,9 +5,11 @@ import {
     AdvisorSignup, 
     Login, 
     ForgotPassword,
+    ResetPassword,
     UserRole,
     useAuth,
     MustVerifyEmail,
+    VerifyEmailConfirm,
     OTPVerification,
     type User
 } from "@/features/auth";
@@ -51,7 +53,9 @@ export const AppRoutes = () => {
             <Route path="/auth/signup/advisor" element={<AdvisorSignup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+            <Route path="/auth/reset-password" element={<ResetPassword />} />
             <Route path="/auth/verify-email" element={<MustVerifyEmail />} />
+            <Route path="/auth/verify-email/confirm" element={<VerifyEmailConfirm />} />
             <Route path="/auth/verify-otp" element={<OTPVerification />} />
             
             {/* Dashboard Redirect */}

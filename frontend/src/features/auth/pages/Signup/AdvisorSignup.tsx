@@ -4,7 +4,7 @@ import { useAdvisorSignup } from '@/features/auth/hooks';
 import { AuthLayout, AdvisorSignupForm } from '@/features/auth/components';
 
 export const AdvisorSignup: React.FC = () => {
-  const { form, cinUrl, handleCinChange, onSubmit } = useAdvisorSignup();
+  const { form, faculties, cinUrl, handleCinChange, onSubmit } = useAdvisorSignup();
 
   return (
     <AuthLayout
@@ -25,6 +25,7 @@ export const AdvisorSignup: React.FC = () => {
 
       <AdvisorSignupForm
         form={form}
+        faculties={faculties}
         cinUrl={cinUrl}
         onCinChange={handleCinChange}
         onSubmit={onSubmit}

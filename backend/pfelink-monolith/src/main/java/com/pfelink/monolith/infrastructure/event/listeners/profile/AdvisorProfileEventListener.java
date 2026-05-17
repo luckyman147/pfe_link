@@ -11,6 +11,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -45,7 +47,9 @@ public class AdvisorProfileEventListener {
         
         profile.setCinNumber(event.cinNumber());
         profile.setCinScreenshotUrl(event.cinCardUrl());
-        
+        profile.setPendingFacultyId(event.facultyId() == null ? null : UUID.fromString(event.facultyId()));
+        profile.setPendingFacultyDomainEmail(event.pendingFacultyDomainEmail());
+
         advisorProfileRepository.save(profile);
         log.info("Initial AdvisorProfile created successfully for user: {}", event.userId());
     }

@@ -1,26 +1,29 @@
 import { useState } from 'react';
+import { useMyProject } from './useMyProject';
 
-export const usePFEs = () => {
-    const [pfes, setPfes] = useState<any[]>([]);
-    const [isLoading] = useState(false);
+export function usePFEs() {
+    const { project, isLoading, error, createProject } = useMyProject();
     const [isCreating, setIsCreating] = useState(false);
+    const [createError, setCreateError] = useState<string | null>(null);
 
-    const createPFE = async (data: any, { onSuccess }: { onSuccess?: () => void } = {}) => {
+    const createPFE = async (title: string, description: string) => {
         setIsCreating(true);
+        setCreateError(null);
         try {
-            // Mocking creation for now
-            console.log('Creating PFE:', data);
-            setPfes(prev => [...prev, { ...data, id: Math.random().toString() }]);
-            onSuccess?.();
+            await createProject(title, description);
+        } catch (err: any) {
+            setCreateError(err?.response?.data?.message ?? 'Failed to create project');
         } finally {
             setIsCreating(false);
         }
     };
 
     return {
-        pfes,
+        project,
         isLoading,
+        error,
         isCreating,
+        createError,
         createPFE
     };
-};
+}

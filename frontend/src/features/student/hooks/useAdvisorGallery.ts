@@ -1,55 +1,69 @@
-import { useEffect, useState } from 'react';
-import { useAuth } from '@/features/auth';
-import { advisorService, type AdvisorProfile, type SelectionRequest } from '@/features/auth/services/advisor.service';
+import { useEffect, useState, useCallback } from 'react';
+import advisorService from '@/features/student/services/advisor.service';
+import { useStudentProfile } from './useStudentProfile';
+import { useMyProject } from '@/features/pfe/hooks/useMyProject';
+import api from '@/shared/services/api';
+import type { AdvisorProfile } from '@/features/academic/types/academic.types';
 
 export const useAdvisorGallery = () => {
-  const { user } = useAuth();
+  const { profile } = useStudentProfile();
+  const { project } = useMyProject();
   const [advisors, setAdvisors] = useState<AdvisorProfile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selection, setSelection] = useState<SelectionRequest | null>(null);
-  const [isSelecting, setIsSelecting] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [selection, setSelection] = useState<string | null>(null);
+  const [isSelecting, setIsSelecting] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAdvisors = async () => {
+      if (!profile?.facultyId) {
+        setIsLoading(false);
+        return;
+      }
+
       try {
-        const facultyName = user?.studentProfile?.facultyName || ""; 
-        const advisorsData = await advisorService.searchAdvisors(facultyName);
-        setAdvisors(advisorsData);
-        
-        try {
-          const selectionData = await advisorService.getSelectionStatus();
-          setSelection(selectionData);
-        } catch {
-          // No selection yet
-        }
-      } catch (error) {
-        console.error("Failed to fetch advisors", error);
+        setError(null);
+        const data = await advisorService.getAdvisorsByFaculty(profile.facultyId);
+        setAdvisors(data);
+      } catch (err: any) {
+        setError(err.response?.data?.message || 'Failed to fetch advisors');
+        console.error('Failed to fetch advisors:', err);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, [user]);
+    fetchAdvisors();
+  }, [profile?.facultyId]);
 
-  const handleSelect = async (advisorId: string) => {
-    setIsSelecting(advisorId);
-    try {
-      const newSelection = await advisorService.selectAdvisor(advisorId);
-      setSelection(newSelection);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? (error as any).response?.data?.message : "Failed to select advisor";
-      alert(message || "Failed to select advisor");
-    } finally {
-      setIsSelecting(null);
+  const handleSelect = useCallback(async (advisorId: string, message: string) => {
+    if (!project?.id) {
+      setError('No project found. Please create a project first.');
+      return;
     }
-  };
+
+    setIsSelecting(true);
+    setError(null);
+    try {
+      await api.post('/api/v1/selection-requests', {
+        projectId: project.id,
+        advisorProfileId: advisorId,
+        message,
+      });
+      setSelection(advisorId);
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to submit selection request');
+    } finally {
+      setIsSelecting(false);
+    }
+  }, [project?.id]);
 
   return {
     advisors,
     isLoading,
+    error,
     selection,
     isSelecting,
-    handleSelect
+    handleSelect,
   };
 };

@@ -31,6 +31,13 @@ public class AuthNotificationListener {
 
     @Async
     @EventListener
+    public void onPasswordResetRequested(PasswordResetEvent event) {
+        log.info("Password reset OTP requested: {}", event.email());
+        emailService.sendPasswordResetOtp(event.email(), event.fullName(), event.otp());
+    }
+
+    @Async
+    @EventListener
     public void onUserEmailVerified(UserEmailVerifiedEvent event) {
         log.info("User email verified: {} ({})", event.email(), event.role());
         // Detailed faculty joining notifications are now handled by specialized listeners 

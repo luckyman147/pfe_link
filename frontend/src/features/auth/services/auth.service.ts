@@ -1,20 +1,16 @@
 import api from '@/shared/services/api';
-import type { AuthResponse, LoginRequest, User } from '../types/auth.types';
+import type { AuthResponse, RefreshTokenResponse, LoginRequest, User } from '../types/auth.types';
 import { sessionService } from './session.service';
 import type { ApiResponse } from '@/shared/types/api';
+import { AUTH_ENDPOINTS } from '@/config/endpoints';
 
-/**
- * Authentication Service
- * Handles core auth operations: login, logout, and token refresh
- */
 export const authService = {
   login: async (credentials: LoginRequest, recaptchaToken?: string): Promise<AuthResponse> => {
-    const response = await api.post<ApiResponse<AuthResponse>>('/api/auth/login', credentials, {
+    const response = await api.post<ApiResponse<AuthResponse>>(AUTH_ENDPOINTS.login, credentials, {
       headers: recaptchaToken ? { 'X-Recaptcha-Token': recaptchaToken } : {}
     });
     const data = response.data.data;
     const token = data.token || data.accessToken;
-    
     if (token) {
       sessionService.setSession(data);
     }
@@ -22,19 +18,19 @@ export const authService = {
   },
 
   getMe: async (): Promise<User> => {
-    const response = await api.get<ApiResponse<User>>('/api/auth/me');
+    const response = await api.get<ApiResponse<User>>(AUTH_ENDPOINTS.me);
     return response.data.data;
   },
 
-  refresh: async (): Promise<AuthResponse> => {
+  refresh: async (): Promise<RefreshTokenResponse> => {
     const refreshToken = localStorage.getItem('refreshToken');
     if (!refreshToken) throw new Error('No refresh token available');
-
-    const response = await api.post<ApiResponse<AuthResponse>>('/api/auth/refresh', { refreshToken });
+    
+    const response = await api.post<ApiResponse<RefreshTokenResponse>>(AUTH_ENDPOINTS.refresh, { refreshToken });
     const data = response.data.data;
     
-    if (data.token || data.accessToken) {
-      localStorage.setItem('accessToken', data.token || data.accessToken || '');
+    if (data.accessToken) {
+      localStorage.setItem('accessToken', data.accessToken);
       if (data.refreshToken) {
         localStorage.setItem('refreshToken', data.refreshToken);
       }
@@ -44,7 +40,7 @@ export const authService = {
 
   logout: async () => {
     try {
-      await api.post('/api/auth/logout');
+      await api.post(AUTH_ENDPOINTS.logout);
     } catch (e) {
       console.error('Logout failed on server:', e);
     } finally {

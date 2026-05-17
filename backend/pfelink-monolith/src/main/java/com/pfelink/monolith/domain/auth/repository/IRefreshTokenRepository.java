@@ -13,6 +13,6 @@ public interface IRefreshTokenRepository extends JpaRepository<RefreshToken, Lon
     Optional<RefreshToken> findByToken(String token);
     Optional<RefreshToken> findByUser(User user);
 
-    @Modifying
+    @Modifying(flushAutomatically = true)
     int deleteByUser(User user);
 }

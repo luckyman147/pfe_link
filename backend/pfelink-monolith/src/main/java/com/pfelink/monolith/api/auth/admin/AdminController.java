@@ -21,8 +21,10 @@ public class AdminController {
     private final Dispatcher dispatcher;
 
     @GetMapping("/pending-faculties")
-    public ResponseEntity<?> getPendingFaculties() {
-        return ResponseUtil.toResponse(dispatcher.query(new GetPendingFacultiesQuery()));
+    public ResponseEntity<?> getPendingFaculties(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size) {
+        return ResponseUtil.toResponse(dispatcher.query(new GetPendingFacultiesQuery(page, size)));
     }
 
     @PostMapping("/approve-faculty/{id}")

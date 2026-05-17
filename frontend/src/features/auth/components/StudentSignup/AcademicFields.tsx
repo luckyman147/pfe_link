@@ -25,14 +25,14 @@ export const AcademicFields: React.FC<AcademicFieldsProps> = ({ register, errors
         {errors.cinNumber && <span className="text-xs text-stitch-error mt-1 px-1">{errors.cinNumber.message as string}</span>}
       </div>
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-stitch-on-surface-variant px-1" htmlFor="facultyId">Faculty</label>
+        <label className="text-sm font-medium text-stitch-on-surface-variant px-1" htmlFor="facultyId">University / Faculty</label>
         <select
           {...register('facultyId')}
           id="facultyId"
           className={`w-full px-4 py-3 bg-stitch-surface-container-lowest border rounded-xl text-sm outline-none transition-all appearance-none cursor-pointer
             ${errors.facultyId ? 'border-stitch-error focus:ring-1 focus:ring-stitch-error' : 'border-stitch-outline-variant focus:border-stitch-primary focus:ring-1 focus:ring-stitch-primary'}`}
         >
-          <option value="">Select faculty</option>
+          <option value="">Select your university / faculty</option>
           {faculties.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
         </select>
         {errors.facultyId && <span className="text-xs text-stitch-error mt-1 px-1">{errors.facultyId.message as string}</span>}

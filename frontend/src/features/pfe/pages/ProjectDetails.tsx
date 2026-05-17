@@ -1,26 +1,41 @@
 import React from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { ArrowLeft, Share2, Bookmark } from 'lucide-react';
 import { ProjectHeader } from '../components/Details/ProjectHeader';
 import { ProjectContent } from '../components/Details/ProjectContent';
 import { ProjectSidebar } from '../components/Details/ProjectSidebar';
+import { useMyProject } from '../hooks/useMyProject';
 
 export const ProjectDetails: React.FC = () => {
   const navigate = useNavigate();
+  const { project, isLoading, error } = useMyProject();
 
-  const project = {
-    title: "AI-Driven Predictive Maintenance for Industrial IoT",
-    advisor: "Dr. Sarah Chen",
-    department: "Computer Science",
-    postedDate: "Oct 15, 2023",
-    deadline: "Nov 30, 2023",
-    status: "OPEN",
-    tags: ["Machine Learning", "IoT", "Industry 4.0"],
-    description: "This project aims to develop a robust predictive maintenance system using real-time sensor data from industrial machinery. Students will implement deep learning models (LSTM/GRU) to predict equipment failure before it occurs.",
-    requirements: ["Proficiency in Python and PyTorch", "Basic understanding of IoT protocols", "Strong background in signal processing"],
-    deliverables: ["Data ingestion pipeline", "Trained ML models", "Monitoring dashboard"]
-  };
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-pulse text-slate-500">Loading project...</div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (error || !project) {
+    return (
+      <DashboardLayout>
+        <div className="flex flex-col items-center justify-center h-64 gap-4">
+          <div className="text-slate-500">No project found.</div>
+          <button 
+            onClick={() => navigate(-1)} 
+            className="text-primary hover:underline"
+          >
+            Back to Catalog
+          </button>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>

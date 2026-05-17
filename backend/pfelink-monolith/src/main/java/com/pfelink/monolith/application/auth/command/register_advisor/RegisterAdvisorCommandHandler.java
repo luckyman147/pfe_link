@@ -1,6 +1,8 @@
 package com.pfelink.monolith.application.auth.command.register_advisor;
 
 import com.pfelink.monolith.application.auth.dto.AuthResponseDTO;
+import com.pfelink.monolith.domain.academic.entity.faculty.Faculty;
+import com.pfelink.monolith.domain.academic.repository.IFacultyRepository;
 import com.pfelink.monolith.domain.auth.entity.User;
 import com.pfelink.monolith.domain.auth.enums.AccountStatus;
 import com.pfelink.monolith.domain.auth.enums.UserRole;
@@ -19,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class RegisterAdvisorCommandHandler
@@ -26,6 +30,7 @@ public class RegisterAdvisorCommandHandler
 
     private final IUserRepository userRepository;
     private final IDraftUploadRepository draftRepository;
+    private final IFacultyRepository facultyRepository;
     private final PasswordEncoder passwordEncoder;
     private final ApplicationEventPublisher eventPublisher;
     private final OtpService otpService;
@@ -37,15 +42,8 @@ public class RegisterAdvisorCommandHandler
             return Result.failure(Error.failure("Auth.EmailExists", "Email already exists"));
         }
 
-        String actualCinCardUrl = cmd.cinCardUrl();
-        if (cmd.draftId() != null && !cmd.draftId().isBlank()) {
-            DraftUpload draft = draftRepository.findById(cmd.draftId()).orElse(null);
-            if (draft != null) {
-                actualCinCardUrl = draft.getUrl();
-                draft.setCommitted(true);
-                draftRepository.save(draft);
-            }
-        }
+        String actualCinCardUrl = resolveDraftUrl(cmd.draftId(), cmd.cinCardUrl());
+        FacultyRef ref = resolveFacultyRef(cmd.facultyId(), cmd.facultyDomainEmail());
 
         User user = new User();
         user.setEmail(cmd.email());
@@ -62,7 +60,9 @@ public class RegisterAdvisorCommandHandler
         eventPublisher.publishEvent(new UserSignedUpEvent(
             saved.getId(), saved.getEmail(),
             saved.getFullName(), saved.getRole().name(),
-            cmd.cinNumber(), actualCinCardUrl, null,null
+            cmd.cinNumber(), actualCinCardUrl, null,
+            ref.resolvedFacultyId() == null ? null : ref.resolvedFacultyId().toString(),
+            ref.pendingEmail()
         ));
         eventPublisher.publishEvent(new EmailVerificationEvent(
             saved.getEmail(), saved.getFullName(), token
@@ -73,4 +73,22 @@ public class RegisterAdvisorCommandHandler
             saved.getRole(), saved.getStatus(), null, null
         ));
     }
+
+    private String resolveDraftUrl(String draftId, String fallbackUrl) {
+        if (draftId == null || draftId.isBlank()) return fallbackUrl;
+        DraftUpload draft = draftRepository.findById(draftId).orElse(null);
+        if (draft == null) return fallbackUrl;
+        draft.setCommitted(true);
+        draftRepository.save(draft);
+        return draft.getUrl();
+    }
+
+    private FacultyRef resolveFacultyRef(UUID facultyId, String facultyDomainEmail) {
+        if (facultyId != null) return new FacultyRef(facultyId, null);
+        if (facultyDomainEmail == null || facultyDomainEmail.isBlank()) return new FacultyRef(null, null);
+        UUID resolved = facultyRepository.findByEmail(facultyDomainEmail).map(Faculty::getId).orElse(null);
+        return new FacultyRef(resolved, resolved == null ? facultyDomainEmail : null);
+    }
+
+    private record FacultyRef(UUID resolvedFacultyId, String pendingEmail) {}
 }

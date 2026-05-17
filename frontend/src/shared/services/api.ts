@@ -1,4 +1,5 @@
 import config from '@/config/env';
+import { AUTH_ENDPOINTS } from '@/config/endpoints';
 import axios from 'axios';
 
 // Create Axios instance with centralized config
@@ -10,6 +11,15 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+});
+
+// Request interceptor to attach JWT token
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 interface FailedRequest {
@@ -41,7 +51,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       
       // If the refresh endpoint itself returns 401, the session is completely dead
-      if (originalRequest.url?.includes('/api/auth/refresh')) {
+      if (originalRequest.url?.includes(AUTH_ENDPOINTS.refresh)) {
         localStorage.removeItem('user'); // User data is safe in localStorage, but tokens are in cookies
         window.location.href = '/login';
         return Promise.reject(error);
@@ -65,7 +75,7 @@ api.interceptors.response.use(
       try {
         // We don't need to send the refreshToken in the body anymore (backend reads from cookie)
         // but we send an empty body to satisfy POST requirements if needed.
-        await axios.post(`${config.api.baseUrl}/api/auth/refresh`, {}, { withCredentials: true });
+        await axios.post(`${config.api.baseUrl}${AUTH_ENDPOINTS.refresh}`, {}, { withCredentials: true });
         
         processQueue(null);
         return api(originalRequest);

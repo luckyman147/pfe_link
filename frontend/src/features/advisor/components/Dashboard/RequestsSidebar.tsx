@@ -1,25 +1,13 @@
 import React from 'react';
 import { RequestItem } from '../Requests/RequestItem';
 import { Mail } from 'lucide-react';
+import type { SelectionRequest } from '@/features/academic/types/academic.types';
 
-export const RequestsSidebar: React.FC = () => {
-  const requests = [
-    { 
-      name: 'David Kim', 
-      dept: 'Computer Science', 
-      time: '2h ago', 
-      topic: 'Optimization of Neural Networks for Edge Devices in Autonomous Vehicles.', 
-      img: 'https://i.pravatar.cc/100?img=20' 
-    },
-    { 
-      name: 'Elena Rodriguez', 
-      dept: 'Data Science', 
-      time: '1d ago', 
-      topic: 'Predictive Modeling of Urban Traffic Flow Using Historical Ride-Sharing Data.', 
-      img: 'https://i.pravatar.cc/100?img=25' 
-    }
-  ];
+interface RequestsSidebarProps {
+  items: SelectionRequest[];
+}
 
+export const RequestsSidebar: React.FC<RequestsSidebarProps> = ({ items }) => {
   return (
     <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-[32px] shadow-sm overflow-hidden flex flex-col h-full transition-all duration-500 hover:shadow-xl hover:shadow-tertiary/5">
       <div className="px-8 py-6 border-b border-outline-variant/20 flex justify-between items-center bg-surface-container-low/30">
@@ -29,23 +17,31 @@ export const RequestsSidebar: React.FC = () => {
           </div>
           Recent Requests
         </h3>
-        <span className="bg-error/10 text-error font-black px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest border border-error/10 animate-pulse">
-          5 Pending
-        </span>
+        {items.length > 0 && (
+          <span className="bg-error/10 text-error font-black px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest border border-error/10 animate-pulse">
+            {items.length} Pending
+          </span>
+        )}
       </div>
       
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
-        {requests.map((req, i) => (
-          <RequestItem request={{
-            id: '',
-            student: '',
-            project: '',
-            date: '',
-            faculty: '',
-            avatar: '',
-            gpa: ''
-          }} key={i} {...req} />
-        ))}
+        {items.length > 0 ? (
+          items.map((req, i) => (
+            <RequestItem request={{
+              id: req.id,
+              student: req.studentId,
+              project: req.projectTitle,
+              date: new Date().toISOString(),
+              faculty: '',
+              avatar: '',
+              gpa: ''
+            }} key={i} name={req.studentId} dept="Student" time="Recently" topic={req.message} img="" />
+          ))
+        ) : (
+          <div className="text-center text-on-surface-variant py-8">
+            No pending requests
+          </div>
+        )}
       </div>
       
       <div className="p-6 border-t border-outline-variant/10 bg-surface-container-low/20 text-center">
@@ -56,4 +52,3 @@ export const RequestsSidebar: React.FC = () => {
     </div>
   );
 };
-

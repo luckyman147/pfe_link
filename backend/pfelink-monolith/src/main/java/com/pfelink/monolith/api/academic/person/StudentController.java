@@ -2,6 +2,7 @@ package com.pfelink.monolith.api.academic.person;
 
 import com.pfelink.monolith.domain.auth.entity.User;
 import com.pfelink.monolith.application.academic.query.student.get_me.GetMyStudentProfileQuery;
+import com.pfelink.monolith.application.academic.query.student.search.SearchStudentsQuery;
 import com.pfelink.monolith.infrastructure.api.ResponseUtil;
 import com.pfelink.monolith.shared.cqrs.Dispatcher;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +28,13 @@ public class StudentController {
         if (auth == null || !(auth.getPrincipal() instanceof User user)) {
             return ResponseEntity.status(401).body("User not authenticated");
         }
-        
+
         return ResponseUtil.toResponse(dispatcher.query(new GetMyStudentProfileQuery(user.getId())));
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Search for students by email")
+    public ResponseEntity<?> searchStudents(@RequestParam String email) {
+        return ResponseUtil.toResponse(dispatcher.query(new SearchStudentsQuery(email)));
     }
 }

@@ -62,7 +62,7 @@ public class RegisterStudentCommandHandler
 
         eventPublisher.publishEvent( UserSignedUpEvent.of(
             saved.getId(), saved.getEmail(), saved.getFullName(), saved.getRole().name(),
-            cmd.cinNumber(), null, actualCardUrl, cmd.facultyId()
+            cmd.cinNumber(), null, actualCardUrl, cmd.facultyId(), null
         ));
 
         eventPublisher.publishEvent( EmailVerificationEvent.of(saved.getEmail(), saved.getFullName(), token));

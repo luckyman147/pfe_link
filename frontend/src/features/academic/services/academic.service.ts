@@ -8,74 +8,51 @@ import type {
   StudentProfile
 } from '../types/academic.types';
 import type { Faculty } from '@/features/auth/types/auth.types';
+import { ACADEMIC_ENDPOINTS } from '@/config/endpoints';
 
 export const academicService = {
-  /**
-   * Get all validated faculties
-   * GET /api/v1/faculties
-   */
+  /** Get all validated faculties */
   getFaculties: async (): Promise<Faculty[]> => {
-    const response = await api.get<ApiResponse<Faculty[]>>('/api/v1/faculties');
+    const response = await api.get<ApiResponse<Faculty[]>>(ACADEMIC_ENDPOINTS.faculties);
     return response.data.data;
   },
 
-  /**
-   * Submit a faculty registration request
-   * POST /api/v1/faculties
-   */
+  /** Submit a faculty registration request */
   createFaculty: async (data: CreateFacultyRequest): Promise<string> => {
-    const response = await api.post<ApiResponse<string>>('/api/v1/faculties', data);
+    const response = await api.post<ApiResponse<string>>(ACADEMIC_ENDPOINTS.faculties, data);
     return response.data.data;
   },
 
-  /**
-   * Get pending faculties (Admin only)
-   * GET /api/admin/pending-faculties
-   */
+  /** Get pending faculties (Admin only) */
   getPendingFaculties: async (): Promise<FacultyResponse[]> => {
-    const response = await api.get<ApiResponse<FacultyResponse[]>>('/api/admin/pending-faculties');
+    const response = await api.get<ApiResponse<FacultyResponse[]>>(ACADEMIC_ENDPOINTS.pendingFaculties);
     return response.data.data;
   },
 
-  /**
-   * Approve faculty (Admin only)
-   * POST /api/admin/approve-faculty/{id}
-   */
+  /** Approve faculty (Admin only) */
   approveFaculty: async (id: string): Promise<void> => {
-    await api.post(`/api/admin/approve-faculty/${id}`);
+    await api.post(ACADEMIC_ENDPOINTS.approveFaculty(id));
   },
 
-  /**
-   * Reject faculty (Admin only)
-   * POST /api/admin/reject-faculty/{id}
-   */
+  /** Reject faculty (Admin only) */
   rejectFaculty: async (id: string): Promise<void> => {
-    await api.post(`/api/admin/reject-faculty/${id}`);
+    await api.post(ACADEMIC_ENDPOINTS.rejectFaculty(id));
   },
 
-  /**
-   * Get advisors by faculty ID
-   * GET /api/v1/advisors/faculty/{facultyId}
-   */
+  /** Get advisors by faculty ID */
   getAdvisors: async (facultyId: string): Promise<AdvisorProfile[]> => {
-    const response = await api.get<ApiResponse<AdvisorProfile[]>>(`/api/v1/advisors/faculty/${facultyId}`);
+    const response = await api.get<ApiResponse<AdvisorProfile[]>>(ACADEMIC_ENDPOINTS.advisorsByFaculty(facultyId));
     return response.data.data;
   },
 
-  /**
-   * Submit a selection request
-   * POST /api/v1/selection-requests
-   */
+  /** Submit a selection request */
   submitSelection: async (data: SubmitSelectionRequest): Promise<void> => {
-    await api.post('/api/v1/selection-requests', data);
+    await api.post(ACADEMIC_ENDPOINTS.selectionRequests, data);
   },
 
-  /**
-   * Get current user's student profile
-   * GET /api/v1/students/me
-   */
+  /** Get current user's student profile */
   getMyProfile: async (): Promise<StudentProfile> => {
-    const response = await api.get<ApiResponse<StudentProfile>>('/api/v1/students/me');
+    const response = await api.get<ApiResponse<StudentProfile>>(ACADEMIC_ENDPOINTS.studentsMe);
     return response.data.data;
   }
 };

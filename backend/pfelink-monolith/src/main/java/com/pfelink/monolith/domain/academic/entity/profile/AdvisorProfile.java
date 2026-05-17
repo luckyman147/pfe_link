@@ -39,6 +39,12 @@ public class AdvisorProfile {
     @Column(name = "cin_screenshot_url")
     private String cinScreenshotUrl;
 
+    @Column(name = "pending_faculty_id")
+    private UUID pendingFacultyId;
+
+    @Column(name = "pending_faculty_domain_email")
+    private String pendingFacultyDomainEmail;
+
     @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AdvisorAssignment> assignments = new ArrayList<>();
 }

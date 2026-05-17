@@ -4,8 +4,19 @@ import { AuthLayout, LoginForm } from '@/features/auth/components';
 import { useAuth } from '@/features/auth';
 
 export const Login: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
+
+  // Don't redirect until auth is fully loaded to prevent flash
+  if (isLoading) {
+    return (
+      <AuthLayout title="Loading...">
+        <div className="flex items-center justify-center p-8">
+          <div className="w-8 h-8 border-4 border-stitch-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      </AuthLayout>
+    );
+  }
 
   if (isAuthenticated) {
     const from = location.state?.from?.pathname || "/dashboard";

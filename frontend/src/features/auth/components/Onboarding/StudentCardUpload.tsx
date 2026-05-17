@@ -6,9 +6,16 @@ import uploadService from '@/shared/services/upload.service';
 interface Props {
   cardUrl: string | null;
   onChange: (url: string, id?: string) => void;
+  uploadTitle?: string;
+  previewAlt?: string;
 }
 
-export const StudentCardUpload: React.FC<Props> = ({ cardUrl, onChange }) => {
+export const StudentCardUpload: React.FC<Props> = ({
+  cardUrl,
+  onChange,
+  uploadTitle = 'Upload your student card',
+  previewAlt = 'Uploaded card',
+}) => {
   const fileRef = useRef<HTMLInputElement>(null);
   const [showCamera, setShowCamera] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -51,7 +58,7 @@ export const StudentCardUpload: React.FC<Props> = ({ cardUrl, onChange }) => {
 
         {cardUrl ? (
           <div className="relative w-full min-h-[180px]">
-            <img src={cardUrl} alt="Student Card" className="w-full h-full object-cover min-h-[180px]" />
+            <img src={cardUrl} alt={previewAlt} className="w-full h-full object-cover min-h-[180px]" />
             <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-green-500/90 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow">
               <CheckCircle className="w-3 h-3" /> Uploaded
             </div>
@@ -74,7 +81,7 @@ export const StudentCardUpload: React.FC<Props> = ({ cardUrl, onChange }) => {
           <div className="flex flex-col items-center justify-center gap-4 p-8 bg-gray-50/50 hover:bg-primary-50/20 transition-all min-h-[180px]">
             <Upload className="w-10 h-10 text-gray-300" />
             <div className="text-center">
-              <p className="text-sm font-semibold text-gray-600">Upload your student card</p>
+              <p className="text-sm font-semibold text-gray-600">{uploadTitle}</p>
               <p className="text-xs text-gray-400 mt-0.5">PNG, JPG up to 5 MB</p>
             </div>
             <div className="flex gap-3">

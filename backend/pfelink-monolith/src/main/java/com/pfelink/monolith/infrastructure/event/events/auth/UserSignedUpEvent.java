@@ -10,9 +10,13 @@ public record UserSignedUpEvent(
     String cinNumber,
     String cinCardUrl,
     String studentCardUrl,
-    String facultyId
+    String facultyId,
+    String pendingFacultyDomainEmail
 ) {
-    public static UserSignedUpEvent of(UUID userId, String email, String fullName, String role, String cinNumber, String cinCardUrl, String studentCardUrl, String facultyId) {
-        return new UserSignedUpEvent(userId, email, fullName, role, cinNumber, cinCardUrl, studentCardUrl, facultyId);
+    public static UserSignedUpEvent of(UUID userId, String email, String fullName, String role,
+                                       String cinNumber, String cinCardUrl, String studentCardUrl,
+                                       String facultyId, String pendingFacultyDomainEmail) {
+        return new UserSignedUpEvent(userId, email, fullName, role, cinNumber, cinCardUrl,
+            studentCardUrl, facultyId, pendingFacultyDomainEmail);
     }
 }

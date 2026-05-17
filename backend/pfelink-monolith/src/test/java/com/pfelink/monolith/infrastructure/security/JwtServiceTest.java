@@ -2,23 +2,29 @@ package com.pfelink.monolith.infrastructure.security;
 
 import com.pfelink.monolith.domain.auth.entity.User;
 import com.pfelink.monolith.domain.auth.enums.UserRole;
+import com.pfelink.monolith.infrastructure.security.token.JwtService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestPropertySource(properties = {
+    "app.jwt.secret=TestSecretKeyFor256BitHS256AlgorithmJwtSigning",
+    "app.jwt.expiration=3600000"
+})
 class JwtServiceTest {
 
     private JwtService jwtService;
-    private static final String SECRET = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
     @BeforeEach
     void setUp() {
         jwtService = new JwtService();
-        ReflectionTestUtils.setField(jwtService, "secretKey", SECRET);
+        ReflectionTestUtils.setField(jwtService, "secretKey", "TestSecretKeyFor256BitHS256AlgorithmJwtSigning");
         ReflectionTestUtils.setField(jwtService, "expiration", 3600000L);
     }
 
