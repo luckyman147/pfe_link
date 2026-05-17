@@ -5,9 +5,9 @@ import type { ApiResponse } from '@/shared/types/api';
 import { AUTH_ENDPOINTS } from '@/config/endpoints';
 
 export const authService = {
-  login: async (credentials: LoginRequest, recaptchaToken?: string): Promise<AuthResponse> => {
+  login: async (credentials: LoginRequest, turnstileToken?: string): Promise<AuthResponse> => {
     const response = await api.post<ApiResponse<AuthResponse>>(AUTH_ENDPOINTS.login, credentials, {
-      headers: recaptchaToken ? { 'X-Recaptcha-Token': recaptchaToken } : {}
+      headers: turnstileToken ? { 'X-Turnstile-Token': turnstileToken } : {}
     });
     const data = response.data.data;
     const token = data.token || data.accessToken;

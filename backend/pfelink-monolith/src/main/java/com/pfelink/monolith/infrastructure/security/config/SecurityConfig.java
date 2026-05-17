@@ -99,8 +99,7 @@ public class SecurityConfig {
             "Content-Type",
             "Authorization",
             "X-CSRF-Token",
-            "X-Recaptcha-Token",
-            "x-recaptcha-token"
+            "X-Turnstile-Token"
         ));
 
         config.setExposedHeaders(List.of(

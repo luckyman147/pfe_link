@@ -1,19 +1,36 @@
 import { useState, useEffect, useRef } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { authService, sessionService, registrationService } from '@/features/auth/services';
-import type { 
-  User, 
+import type {
+  User,
   AuthResponse,
   LoginRequest,
   StudentRegistrationRequest,
   AdvisorRegistrationRequest
 } from '@/features/auth/types/auth.types';
 
+declare global {
+  interface Window {
+    turnstile?: {
+      getResponse(): string;
+      reset(): void;
+      remove(): void;
+      render(element: HTMLElement, options: Record<string, unknown>): void;
+      isExpired(): boolean;
+    };
+  }
+}
+
+const getTurnstileToken = (): string | undefined => {
+  if (typeof window !== 'undefined' && window.turnstile) {
+    return window.turnstile.getResponse() || undefined;
+  }
+  return undefined;
+};
+
 export const useAuthManagement = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const initRef = useRef(false);
-  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const fetchUserDetails = async () => {
     try {
@@ -71,17 +88,9 @@ export const useAuthManagement = () => {
   }, []);
 
   const login = async (credentials: LoginRequest): Promise<AuthResponse> => {
-    // Recaptcha is optional - continue without it if not configured
-    let recaptchaToken: string | undefined;
-    if (executeRecaptcha) {
-      try {
-        recaptchaToken = await executeRecaptcha('login');
-      } catch (e) {
-        console.warn('Recaptcha failed, continuing without token');
-      }
-    }
-    const response = await authService.login(credentials, recaptchaToken);
-    
+    const turnstileToken = getTurnstileToken();
+    const response = await authService.login(credentials, turnstileToken);
+
     if (response.token || response.accessToken) {
       sessionService.setSession(response);
       await fetchUserDetails();
@@ -95,15 +104,8 @@ export const useAuthManagement = () => {
   };
 
   const registerStudent = async (data: StudentRegistrationRequest): Promise<AuthResponse> => {
-    let recaptchaToken: string | undefined;
-    if (executeRecaptcha) {
-      try {
-        recaptchaToken = await executeRecaptcha('signup_student');
-      } catch (e) {
-        console.warn('Recaptcha failed, continuing without token');
-      }
-    }
-    const response = await registrationService.registerStudent(data, recaptchaToken);
+    const turnstileToken = getTurnstileToken();
+    const response = await registrationService.registerStudent(data, turnstileToken);
     if (response.token || response.accessToken) {
       sessionService.setSession(response);
       await fetchUserDetails();
@@ -112,15 +114,8 @@ export const useAuthManagement = () => {
   };
 
   const registerAdvisor = async (data: AdvisorRegistrationRequest): Promise<AuthResponse> => {
-    let recaptchaToken: string | undefined;
-    if (executeRecaptcha) {
-      try {
-        recaptchaToken = await executeRecaptcha('signup_advisor');
-      } catch (e) {
-        console.warn('Recaptcha failed, continuing without token');
-      }
-    }
-    const response = await registrationService.registerAdvisor(data, recaptchaToken);
+    const turnstileToken = getTurnstileToken();
+    const response = await registrationService.registerAdvisor(data, turnstileToken);
     if (response.token || response.accessToken) {
       sessionService.setSession(response);
       await fetchUserDetails();

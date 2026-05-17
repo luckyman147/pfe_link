@@ -8,8 +8,8 @@ import { sessionService } from './session.service';
 import type { ApiResponse } from '@/shared/types/api';
 import { AUTH_ENDPOINTS } from '@/config/endpoints';
 
-const recaptchaHeaders = (token?: string) =>
-  token ? { headers: { 'X-Recaptcha-Token': token } } : { headers: {} };
+const turnstileHeaders = (token?: string) =>
+  token ? { headers: { 'X-Turnstile-Token': token } } : { headers: {} };
 
 const persistIfTokenized = (data: AuthResponse) => {
   if (data.token || data.accessToken) sessionService.setSession(data);
@@ -17,16 +17,16 @@ const persistIfTokenized = (data: AuthResponse) => {
 };
 
 export const registrationService = {
-  registerStudent: async (data: StudentRegistrationRequest, recaptchaToken?: string): Promise<AuthResponse> => {
+  registerStudent: async (data: StudentRegistrationRequest, turnstileToken?: string): Promise<AuthResponse> => {
     const response = await api.post<ApiResponse<AuthResponse>>(
-      AUTH_ENDPOINTS.signupStudent, data, recaptchaHeaders(recaptchaToken)
+      AUTH_ENDPOINTS.signupStudent, data, turnstileHeaders(turnstileToken)
     );
     return persistIfTokenized(response.data.data);
   },
 
-  registerAdvisor: async (data: AdvisorRegistrationRequest, recaptchaToken?: string): Promise<AuthResponse> => {
+  registerAdvisor: async (data: AdvisorRegistrationRequest, turnstileToken?: string): Promise<AuthResponse> => {
     const response = await api.post<ApiResponse<AuthResponse>>(
-      AUTH_ENDPOINTS.signupAdvisor, data, recaptchaHeaders(recaptchaToken)
+      AUTH_ENDPOINTS.signupAdvisor, data, turnstileHeaders(turnstileToken)
     );
     return persistIfTokenized(response.data.data);
   },

@@ -104,8 +104,6 @@ app:
   # Public SPA URL (verification links, etc.). Match your VITE_APP_URL in production.
   frontend:
     url: ${FRONTEND_URL:http://localhost:5173}
-  recaptcha:
-    enabled: ${RECAPTCHA_ENABLED:false}
   admin:
     default-email: ${ADMIN_EMAIL:admin@test.com}
     default-password: ${ADMIN_PASSWORD:admin123}
