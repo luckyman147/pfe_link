@@ -51,22 +51,6 @@ spring:
           starttls:
             enable: true
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          # Microsoft Entra External ID JWKS endpoint
-          jwk-set-uri: "${ENTRA_JWKS_URI:https://ciamlogin.com/7af38bd4-da09-4cad-b870-0617a2df54d4/discovery/v2.0/keys}"
-          # Issuer URI for token validation
-          issuer-uri: "${ENTRA_ISSUER_URI:https://ciamlogin.com/7af38bd4-da09-4cad-b870-0617a2df54d4/v2.0}"
-          # Application (client) ID from Entra app registration
-          audiences: "${ENTRA_CLIENT_ID:38d3cd96-2ead-4cb3-bec9-8be9aecb71d9}"
-
-# Additional Entra External ID configuration for token refresh
-entra:
-  client-secret: "${ENTRA_CLIENT_SECRET:}"
-  token-endpoint: "${ENTRA_TOKEN_ENDPOINT:https://ciamlogin.com/7af38bd4-da09-4cad-b870-0617a2df54d4/oauth2/v2.0/token}"
-
 server:
   port: 8081
   compression:
@@ -79,8 +63,8 @@ server:
 
 # Cloudinary Storage
 cloudinary:
-  cloud_name: ${CLOUDINARY_CLOUD_NAME:dtjzttuo1}
-  api_key: ${CLOUDINARY_API_KEY:271113118135419}
+  cloud_name: ${CLOUDINARY_CLOUD_NAME:cloud_name}
+  api_key: ${CLOUDINARY_API_KEY:api_key}
   api_secret: ${CLOUDINARY_API_SECRET:api_secret}
 
 # App settings
@@ -99,6 +83,16 @@ app:
       - http://localhost:5173
       - http://localhost:8080
       - http://localhost:8081
+
+# JWT Configuration - REQUIRED: Set via environment variables in production
+jwt:
+  # Secret key must be Base64-encoded 256-bit (32 bytes) key for HS256
+  # Generate with: openssl rand -base64 32
+  secret: ${JWT_SECRET:}
+  # Access token validity: 15 minutes (900000 ms)
+  access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION:900000}
+  # Refresh token validity: 7 days (604800000 ms)
+  refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:604800000}
 
 logging:
   level:

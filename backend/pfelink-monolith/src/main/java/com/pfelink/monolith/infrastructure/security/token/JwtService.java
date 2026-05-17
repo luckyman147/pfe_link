@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret:YourSuperSecretKeyThatIsLongEnoughForHS256AlgorithmAndAtLeast32BytesLongForSecurity}")
+    @Value("${jwt.secret}")
     private String secretKey;
 
     @Value("${jwt.access-token-expiration:900000}") // 15 minutes

@@ -1,29 +1,30 @@
 package com.pfelink.monolith.infrastructure.security.util;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CookieUtil {
 
+    @Value("${server.ssl.enabled:false}")
+    private boolean isSecure;
+
     public void setTokenCookies(HttpServletResponse response, String accessToken, String refreshToken) {
-        // Access Token Cookie (1 hour)
         ResponseCookie accessCookie = ResponseCookie.from("access_token", accessToken)
                 .httpOnly(true)
-                .secure(false) // Set to true in production with HTTPS
+                .secure(isSecure)
                 .path("/")
-                .maxAge(3600)
+                .maxAge(900)  // 15 minutes, matches access token expiration
                 .sameSite("Strict")
                 .build();
 
-        // Refresh Token Cookie (30 days)
         ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", refreshToken)
                 .httpOnly(true)
-                .secure(false) // Set to true in production with HTTPS
+                .secure(isSecure)
                 .path("/")
-                .maxAge(2592000)
+                .maxAge(604800)  // 7 days, matches refresh token expiration
                 .sameSite("Strict")
                 .build();
 
@@ -34,7 +35,7 @@ public class CookieUtil {
     public void clearTokenCookies(HttpServletResponse response) {
         ResponseCookie accessCookie = ResponseCookie.from("access_token", "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(isSecure)
                 .path("/")
                 .maxAge(0)
                 .sameSite("Strict")
@@ -42,7 +43,7 @@ public class CookieUtil {
 
         ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(isSecure)
                 .path("/")
                 .maxAge(0)
                 .sameSite("Strict")
