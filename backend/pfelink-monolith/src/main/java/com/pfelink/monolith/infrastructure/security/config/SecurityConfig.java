@@ -66,7 +66,13 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/faculty-action/**").permitAll()
                 .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**").permitAll()
+                // Health endpoint allowed for load balancers (unauthenticated)
                 .requestMatchers("/actuator/health").permitAll()
+                // Sensitive actuator endpoints require ADMIN role
+                .requestMatchers("/actuator/metrics", "/actuator/metrics/**").hasRole("ADMIN")
+                .requestMatchers("/actuator/prometheus").hasRole("ADMIN")
+                // Other actuator endpoints require authentication
+                .requestMatchers("/actuator/**").authenticated()
                 .requestMatchers("/error", "/favicon.ico").permitAll()
                 .requestMatchers("/api/v1/faculties/**", "/api/v1/advisors/**", "/api/v1/selection-requests/**", "/api/v1/uploads/**").permitAll()
                 .requestMatchers("/api/v1/students/me").authenticated()

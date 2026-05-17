@@ -138,6 +138,16 @@ management:
     web:
       exposure:
         include: health,info,metrics,prometheus
+      # SECURITY: In production, restrict access to these endpoints
+      # Use network-level controls or Spring Security to:
+      # - Allow /actuator/health from load balancers (unauthenticated)
+      # - Require authentication for /actuator/metrics, /actuator/prometheus
+      # - Disable /actuator/shutdown in production
+      base-path: /actuator
+  metrics:
+    # Do not expose sensitive query parameters in metrics
+    tags:
+      application: ${spring.application.name}
 
 springdoc:
   api-docs:
