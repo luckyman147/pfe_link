@@ -1,4 +1,4 @@
-package com.pfelink.monolith.application.auth.dto.request;
+package com.pfelink.monolith.application.auth.dto.request.authentication;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
