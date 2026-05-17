@@ -2,6 +2,8 @@ package com.pfelink.monolith.domain.auth.repository;
 
 import com.pfelink.monolith.domain.auth.entity.User;
 import com.pfelink.monolith.domain.auth.enums.UserRole;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,9 +13,9 @@ public interface IUserRepository {
     User save(User user);
     Optional<User> findById(UUID id);
     Optional<User> findByEmail(String email);
-    Optional<User> findByAzureId(String azureId);
     Optional<User> findByEmailVerificationToken(String token);
     boolean existsByEmail(String email);
     boolean existsByTelephone(String telephone);
     List<User> findByRole(UserRole role);
+    Page<User> findByRole(UserRole role, Pageable pageable);
 }

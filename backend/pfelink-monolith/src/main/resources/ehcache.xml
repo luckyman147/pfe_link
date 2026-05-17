@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns='http://www.ehcache.org/v3'
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xsi:schemaLocation='http://www.ehcache.org/v3
+                           http://www.ehcache.org/schema/ehcache-core-3.10.xsd'>
+
+    <!-- Default cache for entities -->
+    <cache alias="default">
+        <key-type>java.lang.Object</key-type>
+        <value-type>java.lang.Object</value-type>
+        <expiry>
+            <ttl unit="minutes">10</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">10000</heap>
+            <offheap unit="MB">100</offheap>
+        </resources>
+    </cache>
+
+    <!-- User entity cache (frequently read, rarely modified) -->
+    <cache alias="com.pfelink.monolith.domain.auth.entity.User">
+        <key-type>java.io.Serializable</key-type>
+        <value-type>com.pfelink.monolith.domain.auth.entity.User</value-type>
+        <expiry>
+            <ttl unit="minutes">30</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">5000</heap>
+            <offheap unit="MB">50</offheap>
+        </resources>
+    </cache>
+
+    <!-- Collection cache for user roles -->
+    <cache alias="com.pfelink.monolith.domain.auth.entity.User.authorities">
+        <key-type>java.io.Serializable</key-type>
+        <value-type>java.lang.Object</value-type>
+        <expiry>
+            <ttl unit="hours">1</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1000</heap>
+        </resources>
+    </cache>
+
+    <!-- Query result cache for frequently used queries -->
+    <cache alias="org.hibernate.cache.internal.StandardQueryCache">
+        <key-type>java.io.Serializable</key-type>
+        <value-type>java.lang.Object</value-type>
+        <expiry>
+            <ttl unit="minutes">5</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">5000</heap>
+            <offheap unit="MB">50</offheap>
+        </resources>
+    </cache>
+
+    <!-- Cache for query timestamps -->
+    <cache alias="org.hibernate.cache.spi.TimestampsRegion">
+        <key-type>java.io.Serializable</key-type>
+        <value-type>java.lang.Object</value-type>
+        <expiry>
+            <ttl unit="seconds">0</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">2000</heap>
+        </resources>
+    </cache>
+
+</config>

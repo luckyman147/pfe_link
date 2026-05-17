@@ -1,5 +1,6 @@
 package com.pfelink.monolith.infrastructure.config;
 
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,11 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class CacheConfig {
+
+    // Cache names for Spring @Cacheable
+    public static final String USER_CACHE = "users";
+    public static final String FACULTY_CACHE = "faculties";
+    public static final String SEASON_CACHE = "seasons";
 
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory factory) {

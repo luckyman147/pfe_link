@@ -24,10 +24,25 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    open-in-view: false  # Prevent LazyInitializationException and improve performance
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
+        # Query optimization
+        jdbc.batch_size: 20
+        jdbc.fetch_size: 50
+        order_inserts: true
+        order_updates: true
+        # Enable statistics for monitoring (can be disabled in production)
+        generate_statistics: ${HIBERNATE_STATS_ENABLED:false}
+        # Connection pooling
+        hikari.maximum-pool-size: ${DB_POOL_SIZE:30}
+        hikari.minimum-idle: ${DB_POOL_MIN_IDLE:10}
+        hikari.connection-timeout: 10000
+        # Query cache (optional, for frequently accessed immutable data)
+        cache.use_second_level_cache: true
+        cache.region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
 
   flyway:
     baseline-on-migrate: true
