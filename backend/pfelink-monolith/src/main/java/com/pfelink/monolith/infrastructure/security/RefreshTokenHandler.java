@@ -26,9 +26,9 @@ public class RefreshTokenHandler {
 
     public RefreshTokenHandler(
         RestTemplate restTemplate,
-        @Value("${ENTRA_CLIENT_ID:}") String clientId,
-        @Value("${ENTRA_CLIENT_SECRET:}") String clientSecret,
-        @Value("${ENTRA_TOKEN_ENDPOINT:https://ciamlogin.com/tenant-id/oauth2/v2.0/token}") String tokenEndpoint
+        @Value("${spring.security.oauth2.resourceserver.jwt.audiences:}") String clientId,
+        @Value("${entra.client-secret:}") String clientSecret,
+        @Value("${entra.token-endpoint:https://ciamlogin.com/tenant-id/oauth2/v2.0/token}") String tokenEndpoint
     ) {
         this.restTemplate = restTemplate;
         this.clientId = clientId;
