@@ -8,6 +8,7 @@ import com.pfelink.monolith.infrastructure.api.ResponseUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -21,6 +22,7 @@ public class AdminController {
     private final Dispatcher dispatcher;
 
     @GetMapping("/pending-faculties")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getPendingFaculties(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size) {
@@ -28,11 +30,13 @@ public class AdminController {
     }
 
     @PostMapping("/approve-faculty/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> approveFaculty(@PathVariable UUID id) {
         return ResponseUtil.toResponse(dispatcher.send(new ApproveFacultyCommand(id)));
     }
 
     @PostMapping("/reject-faculty/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> rejectFaculty(@PathVariable UUID id) {
         return ResponseUtil.toResponse(dispatcher.send(new RejectFacultyCommand(id)));
     }
