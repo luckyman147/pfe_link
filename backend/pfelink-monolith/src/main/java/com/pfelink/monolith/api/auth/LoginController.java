@@ -9,7 +9,6 @@ import com.pfelink.monolith.application.auth.dto.request.tokens.RefreshTokenRequ
 import com.pfelink.monolith.application.auth.query.get_me.GetMeQuery;
 import com.pfelink.monolith.domain.auth.entity.User;
 import com.pfelink.monolith.infrastructure.api.ResponseUtil;
-import com.pfelink.monolith.infrastructure.security.service.CloudflareService;
 import com.pfelink.monolith.infrastructure.security.util.CookieUtil;
 import com.pfelink.monolith.shared.cqrs.Dispatcher;
 import com.pfelink.monolith.shared.result.Error;
@@ -33,7 +32,6 @@ public class LoginController {
 
     private final Dispatcher dispatcher;
     private final CookieUtil cookieUtil;
-    private final CloudflareService cloudflareService;
     private final LoginTokenHandler tokenHandler;
 
     @GetMapping("/me")
@@ -47,12 +45,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req,
-                                 @RequestHeader(value = "X-Turnstile-Token", required = false) String turnstileToken,
-                                 HttpServletResponse response) {
-        if (!cloudflareService.verify(turnstileToken)) {
-            return ResponseUtil.toResponse(Result.failure(Error.validation("Invalid Cloudflare Turnstile token")));
-        }
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req, HttpServletResponse response) {
         Result<AuthResponseDTO> result = dispatcher.send(new LoginCommand(req.email(), req.password()));
         if (result.isSuccess()) {
             cookieUtil.setTokenCookies(response, result.getValue().token(), result.getValue().refreshToken());

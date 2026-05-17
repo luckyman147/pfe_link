@@ -5,10 +5,8 @@ import type { ApiResponse } from '@/shared/types/api';
 import { AUTH_ENDPOINTS } from '@/config/endpoints';
 
 export const authService = {
-  login: async (credentials: LoginRequest, turnstileToken?: string): Promise<AuthResponse> => {
-    const response = await api.post<ApiResponse<AuthResponse>>(AUTH_ENDPOINTS.login, credentials, {
-      headers: turnstileToken ? { 'X-Turnstile-Token': turnstileToken } : {}
-    });
+  login: async (credentials: LoginRequest): Promise<AuthResponse> => {
+    const response = await api.post<ApiResponse<AuthResponse>>(AUTH_ENDPOINTS.login, credentials);
     const data = response.data.data;
     const token = data.token || data.accessToken;
     if (token) {

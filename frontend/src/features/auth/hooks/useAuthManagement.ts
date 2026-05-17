@@ -8,25 +8,6 @@ import type {
   AdvisorRegistrationRequest
 } from '@/features/auth/types/auth.types';
 
-declare global {
-  interface Window {
-    turnstile?: {
-      getResponse(): string;
-      reset(): void;
-      remove(): void;
-      render(element: HTMLElement, options: Record<string, unknown>): void;
-      isExpired(): boolean;
-    };
-  }
-}
-
-const getTurnstileToken = (): string | undefined => {
-  if (typeof window !== 'undefined' && window.turnstile) {
-    return window.turnstile.getResponse() || undefined;
-  }
-  return undefined;
-};
-
 export const useAuthManagement = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -88,9 +69,7 @@ export const useAuthManagement = () => {
   }, []);
 
   const login = async (credentials: LoginRequest): Promise<AuthResponse> => {
-    const turnstileToken = getTurnstileToken();
-    const response = await authService.login(credentials, turnstileToken);
-
+    const response = await authService.login(credentials);
     if (response.token || response.accessToken) {
       sessionService.setSession(response);
       await fetchUserDetails();
@@ -104,8 +83,7 @@ export const useAuthManagement = () => {
   };
 
   const registerStudent = async (data: StudentRegistrationRequest): Promise<AuthResponse> => {
-    const turnstileToken = getTurnstileToken();
-    const response = await registrationService.registerStudent(data, turnstileToken);
+    const response = await registrationService.registerStudent(data);
     if (response.token || response.accessToken) {
       sessionService.setSession(response);
       await fetchUserDetails();
@@ -114,8 +92,7 @@ export const useAuthManagement = () => {
   };
 
   const registerAdvisor = async (data: AdvisorRegistrationRequest): Promise<AuthResponse> => {
-    const turnstileToken = getTurnstileToken();
-    const response = await registrationService.registerAdvisor(data, turnstileToken);
+    const response = await registrationService.registerAdvisor(data);
     if (response.token || response.accessToken) {
       sessionService.setSession(response);
       await fetchUserDetails();

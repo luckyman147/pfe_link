@@ -6,7 +6,6 @@ import com.pfelink.monolith.application.auth.command.verify_email.VerifyEmailCom
 import com.pfelink.monolith.application.auth.dto.request.authentication.RegisterAdvisorRequest;
 import com.pfelink.monolith.application.auth.dto.request.authentication.RegisterStudentRequest;
 import com.pfelink.monolith.infrastructure.api.ResponseUtil;
-import com.pfelink.monolith.infrastructure.security.service.CloudflareService;
 import com.pfelink.monolith.shared.cqrs.Dispatcher;
 import com.pfelink.monolith.shared.result.Error;
 import com.pfelink.monolith.shared.result.Result;
@@ -23,14 +22,9 @@ import org.springframework.web.bind.annotation.*;
 public class RegistrationController {
 
     private final Dispatcher dispatcher;
-    private final CloudflareService cloudflareService;
 
     @PostMapping("/signup/student")
-    public ResponseEntity<?> registerStudent(@Valid @RequestBody RegisterStudentRequest req,
-                                           @RequestHeader(value = "X-Turnstile-Token", required = false) String turnstileToken) {
-        if (!cloudflareService.verify(turnstileToken)) {
-            return ResponseUtil.toResponse(Result.failure(Error.validation("Invalid Cloudflare Turnstile token")));
-        }
+    public ResponseEntity<?> registerStudent(@Valid @RequestBody RegisterStudentRequest req) {
         return ResponseUtil.toResponse(dispatcher.send(RegisterStudentCommand.of(
             req.email(), req.password(), req.fullName(),
             req.telephone(), req.cinNumber(),
@@ -39,11 +33,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/signup/advisor")
-    public ResponseEntity<?> registerAdvisor(@Valid @RequestBody RegisterAdvisorRequest req,
-                                           @RequestHeader(value = "X-Turnstile-Token", required = false) String turnstileToken) {
-        if (!cloudflareService.verify(turnstileToken)) {
-            return ResponseUtil.toResponse(Result.failure(Error.validation("Invalid Cloudflare Turnstile token")));
-        }
+    public ResponseEntity<?> registerAdvisor(@Valid @RequestBody RegisterAdvisorRequest req) {
         return ResponseUtil.toResponse(dispatcher.send(RegisterAdvisorCommand.of(
             req.email(), req.password(), req.fullName(),
             req.telephone(), req.cinNumber(), req.cinCardUrl(), req.draftId(),

@@ -98,8 +98,7 @@ public class SecurityConfig {
         config.setAllowedHeaders(List.of(
             "Content-Type",
             "Authorization",
-            "X-CSRF-Token",
-            "X-Turnstile-Token"
+            "X-CSRF-Token"
         ));
 
         config.setExposedHeaders(List.of(

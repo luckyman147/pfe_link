@@ -21,23 +21,6 @@ ErrorIcon.displayName = 'ErrorIcon';
 const LoginFormComponent: React.FC = () => {
   const { register, handleSubmit, errors, isSubmitting, onSubmit } = useLogin();
   const [showPassword, setShowPassword] = React.useState(false);
-  const turnstileRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    if (turnstileRef.current && window.turnstile && !window.turnstile.isExpired?.()) {
-      return;
-    }
-    if (turnstileRef.current && window.turnstile) {
-      try {
-        window.turnstile.render(turnstileRef.current, {
-          sitekey: '0x4AAAAAAADnA79_8NqnXWDw',
-          theme: 'light',
-        });
-      } catch (e) {
-        console.warn('Turnstile widget failed to render:', e);
-      }
-    }
-  }, []);
 
   // Memoize error messages to prevent recalculation
   const emailErrorContent = useMemo(() =>
@@ -135,8 +118,6 @@ const LoginFormComponent: React.FC = () => {
 
       {rootErrorContent}
 
-      <div ref={turnstileRef} className="w-full flex justify-center"></div>
-
       <button
         disabled={isSubmitting}
         type="submit"
@@ -181,9 +162,7 @@ const LoginFormComponent: React.FC = () => {
       </button>
 
       <p className="text-[10px] text-center text-stitch-on-surface-variant/40 leading-relaxed">
-        This portal is protected by Cloudflare Turnstile. See Cloudflare <br />
-        <a href="https://www.cloudflare.com/privacypolicy/" className="underline hover:text-stitch-primary">Privacy Policy</a> and
-        <a href="https://www.cloudflare.com/terms/" className="underline hover:text-stitch-primary ml-1">Terms of Service</a>.
+        This portal uses secure authentication to protect your account.
       </p>
     </form>
   );

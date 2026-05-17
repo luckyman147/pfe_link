@@ -8,25 +8,22 @@ import { sessionService } from './session.service';
 import type { ApiResponse } from '@/shared/types/api';
 import { AUTH_ENDPOINTS } from '@/config/endpoints';
 
-const turnstileHeaders = (token?: string) =>
-  token ? { headers: { 'X-Turnstile-Token': token } } : { headers: {} };
-
 const persistIfTokenized = (data: AuthResponse) => {
   if (data.token || data.accessToken) sessionService.setSession(data);
   return data;
 };
 
 export const registrationService = {
-  registerStudent: async (data: StudentRegistrationRequest, turnstileToken?: string): Promise<AuthResponse> => {
+  registerStudent: async (data: StudentRegistrationRequest): Promise<AuthResponse> => {
     const response = await api.post<ApiResponse<AuthResponse>>(
-      AUTH_ENDPOINTS.signupStudent, data, turnstileHeaders(turnstileToken)
+      AUTH_ENDPOINTS.signupStudent, data
     );
     return persistIfTokenized(response.data.data);
   },
 
-  registerAdvisor: async (data: AdvisorRegistrationRequest, turnstileToken?: string): Promise<AuthResponse> => {
+  registerAdvisor: async (data: AdvisorRegistrationRequest): Promise<AuthResponse> => {
     const response = await api.post<ApiResponse<AuthResponse>>(
-      AUTH_ENDPOINTS.signupAdvisor, data, turnstileHeaders(turnstileToken)
+      AUTH_ENDPOINTS.signupAdvisor, data
     );
     return persistIfTokenized(response.data.data);
   },
