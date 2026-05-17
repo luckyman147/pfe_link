@@ -9,7 +9,9 @@
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Iyed\\\\Desktop\\\\heysir\\\\frontend\\\\src\\\\features\\\\student\\\\pages\" -Filter \"*.tsx\")",
       "Bash(Select-Object -ExpandProperty Name)",
       "Bash(git -C c:\\\\Users\\\\Iyed\\\\Desktop\\\\heysir log --oneline -10 -- frontend/src)",
-      "Bash(grep -E \"\\\\.\\(java|yml\\)$\")"
+      "Bash(grep -E \"\\\\.\\(java|yml\\)$\")",
+      "Bash(git commit *)",
+      "Bash(git add *)"
     ]
   }
 }
