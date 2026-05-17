@@ -11,6 +11,7 @@ public interface IUserRepository {
     User save(User user);
     Optional<User> findById(UUID id);
     Optional<User> findByEmail(String email);
+    Optional<User> findByAzureId(String azureId);
     Optional<User> findByEmailVerificationToken(String token);
     boolean existsByEmail(String email);
     boolean existsByTelephone(String telephone);
