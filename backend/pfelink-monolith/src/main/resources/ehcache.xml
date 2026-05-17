@@ -17,18 +17,16 @@
         </resources>
     </cache>
 
-    <!-- User entity cache (frequently read, rarely modified) -->
-    <cache alias="com.pfelink.monolith.domain.auth.entity.User">
-        <key-type>java.io.Serializable</key-type>
-        <value-type>com.pfelink.monolith.domain.auth.entity.User</value-type>
-        <expiry>
-            <ttl unit="minutes">30</ttl>
-        </expiry>
-        <resources>
-            <heap unit="entries">5000</heap>
-            <offheap unit="MB">50</offheap>
-        </resources>
-    </cache>
+    <!-- User entity cache DISABLED: Contains sensitive data (passwords, tokens)
+         Security note: Entity caching is disabled because User contains:
+         - password (hashed, but still sensitive)
+         - emailVerificationToken (single-use verification)
+         - emailVerified status (changes on verification)
+
+         Cache invalidation is complex when these fields change.
+         Use query result caching for specific safe queries instead.
+    -->
+    <!-- User entity caching is intentionally disabled for security -->
 
     <!-- Collection cache for user roles -->
     <cache alias="com.pfelink.monolith.domain.auth.entity.User.authorities">

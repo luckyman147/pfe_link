@@ -43,6 +43,13 @@ spring:
         # Query cache (optional, for frequently accessed immutable data)
         cache.use_second_level_cache: true
         cache.region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+        # Cache invalidation strategy
+        cache.use_query_cache: true
+        # Never cache entities with sensitive data - use query caching instead
+        # Cache TTLs:
+        # - Query results: 5 minutes (safe for read-only queries)
+        # - Collection caches: 1 hour (for non-sensitive collections)
+        # - Entity caches: DISABLED (no sensitive entities should be cached)
 
   flyway:
     baseline-on-migrate: true
