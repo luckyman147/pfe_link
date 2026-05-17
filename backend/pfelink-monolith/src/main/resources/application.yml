@@ -51,6 +51,18 @@ spring:
           starttls:
             enable: true
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Microsoft Entra External ID JWKS endpoint
+          # Replace {tenant-id} with your actual Entra tenant ID
+          jwk-set-uri: "${ENTRA_JWKS_URI:https://ciamlogin.com/tenant-id/discovery/v2.0/keys}"
+          # Issuer URI for token validation
+          issuer-uri: "${ENTRA_ISSUER_URI:https://ciamlogin.com/tenant-id/v2.0}"
+          # Application (client) ID from Entra app registration
+          audiences: "${ENTRA_CLIENT_ID:your-client-id}"
+
 server:
   port: 8081
   compression:
