@@ -4,6 +4,9 @@ import com.pfelink.monolith.domain.auth.entity.User;
 import com.pfelink.monolith.domain.auth.enums.UserRole;
 import com.pfelink.monolith.domain.auth.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,9 +22,12 @@ public class JpaUserRepository implements IUserRepository {
     @Override public User save(User user) { return springRepo.save(user); }
     @Override public Optional<User> findById(UUID id) { return springRepo.findById(id); }
     @Override public Optional<User> findByEmail(String e) { return springRepo.findByEmail(e); }
-    @Override public Optional<User> findByAzureId(String azureId) { return springRepo.findByAzureId(azureId); }
     @Override public Optional<User> findByEmailVerificationToken(String t) { return springRepo.findByEmailVerificationToken(t); }
     @Override public boolean existsByEmail(String e) { return springRepo.existsByEmail(e); }
     @Override public boolean existsByTelephone(String t) { return springRepo.existsByTelephone(t); }
     @Override public List<User> findByRole(UserRole r) { return springRepo.findByRole(r); }
+    @Override
+    public Page<User> findByRole(UserRole role, Pageable pageable) {
+        return springRepo.findByRole(role, pageable);
+    }
 }
