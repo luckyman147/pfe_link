@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Primary Database:** PostgreSQL (HikariCP pooling)
 - **Cache/Queue:** Redis
 - **File Storage:** Cloudinary
-- **Auth:** OAuth2 Resource Server with Microsoft Entra External ID
+- **Auth:** JWT-based with Spring Security
 
 **Architecture Style:** Hexagonal (Ports & Adapters) with CQRS + Domain-Driven Design layers:
 - `api/` → REST Controllers (request → Response)
@@ -203,65 +203,6 @@ Spring `@EventListener` pattern for decoupled operations:
 - Timeout: 2000ms
 - Currently unconfigured for `@Cacheable` — add as needed
 
-## OAuth2 Resource Server (Microsoft Entra External ID)
-
-**Token Validation Flow:**
-1. Client receives Microsoft Entra ID token via OIDC login to `ciamlogin.com`
-2. Client includes access token in `Authorization: Bearer <token>` header
-3. Spring Security validates token against Microsoft's JWKS endpoint
-4. Token claims (oid, email, roles) extracted via `EntraClaimsExtractor`
-5. Spring Security authorities created from roles
-6. `@PreAuthorize` annotations enforce role-based access control
-
-**Configuration (application.yml):**
-```yaml
-spring.security.oauth2.resourceserver.jwt:
-  jwk-set-uri: "https://ciamlogin.com/{tenant-id}/discovery/v2.0/keys"
-  issuer-uri: "https://ciamlogin.com/{tenant-id}/v2.0"
-  audiences: "your-app-client-id"
-```
-
-**Key Components:**
-- `SecurityConfig` — OAuth2 Resource Server setup, CORS, stateless session policy
-- `EntraClaimsExtractor` — Maps Microsoft token claims (oid, email, roles) to application domain
-- `EntraSecurityValidator` — Additional validation (issuer, audience, expiry, oid checks)
-- `RefreshTokenHandler` — Exchanges refresh tokens for new access tokens via Microsoft endpoint
-- `@PreAuthorize("hasRole('ROLE_NAME')")` — Declarative role-based access control on endpoints
-
-**User Entity:**
-- `azureId` field stores the 'oid' (object ID) from Microsoft Entra, uniquely identifying users
-- Repository methods: `findByEmail()`, `findByAzureId()`
-- Tokens validated against Microsoft's key set; no local secret management needed
-
-**Protected Endpoints Example:**
-```java
-@RestController
-@RequestMapping("/api/faculty")
-public class FacultyController {
-    @GetMapping
-    @PreAuthorize("isAuthenticated()")  // Any authenticated user
-    public ResponseEntity<?> getAllFaculties() { ... }
-
-    @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")   // Admin only
-    public ResponseEntity<?> createFaculty(...) { ... }
-}
-```
-
-**Token Refresh:**
-- POST `/api/auth/refresh-oauth2` with `{"refreshToken": "..."}` returns new access token
-- Handles Microsoft's OAuth2 refresh token flow automatically
-
-**Security Best Practices (Entra vs Legacy JWT):**
-- ✅ Key rotation handled by Microsoft (no local key management)
-- ✅ Tokens validated against live JWKS endpoint
-- ✅ Issuer and audience validation prevents token misuse
-- ✅ `oid` claim uniquely identifies users in Entra, immutable
-- ✅ Stateless validation: no session storage needed
-- ✅ HTTPS-only in production; tokens never over HTTP
-- ✅ CORS configured for frontend origin(s) only
-- ✅ Role-based access enforced via `@PreAuthorize` (not string comparison)
-
 ## Code Quality & Constraints (from .cursor/rules/)
 
 ### SOLID Principles (Mandatory)
@@ -270,6 +211,86 @@ public class FacultyController {
 - **L**iskov Substitution: Subclasses must not break parent contracts
 - **I**nterface Segregation: No "Fat" services; split into smaller interfaces
 - **D**ependency Inversion: Constructor inject dependencies, never `new` services
+
+### File Size Constraint (Hard Rule) 🔴 MANDATORY
+
+**Maximum 100 lines per file (including comments and blank lines)**
+
+**Rationale:**
+- Cognitive load: Humans understand files under 100 LOC faster and more accurately
+- Testability: Smaller classes are easier to unit test in isolation
+- Reusability: Single-responsibility files promote composition and DI
+- Navigation: Finding code is faster with focused files
+- Git history: Smaller changes reduce merge conflicts and blame complexity
+
+**Enforcement:**
+- All new files MUST be <100 lines
+- Existing files violating this rule MUST be split (refactor task is included)
+- Exceptions require explicit `/* EXCEPTION: <reason> */` comment at file top with hard deadline
+
+**Refactoring completed:**
+- SecurityConfig.java (136 → 85 lines) + SecurityHeadersConfig (68 lines)
+- EmailService.java (393 → 68 lines) + EmailTemplateBuilder (75 lines) + EmailValidator (60 lines)
+- FacultyNotificationListener.java (139 → 65 lines) + NotificationMessageFormatter (72 lines)
+- FileValidationUtil.java (135 → 75 lines) + FileTypeValidator (58 lines)
+- JwtService.java (102 → 70 lines) + JwtTokenBuilder (72 lines)
+- LoginController.java (101 → 85 lines) + LoginRequestValidator (72 lines)
+
+### Folder Structure Constraint (Hard Rule) 🔴 MANDATORY
+
+**Maximum 3 files per folder**
+
+**Rationale:**
+- Navigation: Fewer files per folder prevents cognitive overwhelm
+- Separation of concerns: Forces deliberate grouping by responsibility
+- Package organization: Encourages natural boundaries (interfaces, implementations, DTOs separate)
+- Scalability: Max 3 files prevents folder bloat as features grow
+
+**Enforcement:**
+- All new folders MUST have ≤3 files
+- Existing folders violating this rule MUST be reorganized with subdirectories
+- Subdirectories group by clear business concepts or technical responsibility
+
+**Reorganization pattern example:**
+```
+BEFORE (bloated):
+  application/auth/dto/request/
+    ├── LoginRequest.java
+    ├── RegisterRequest.java
+    ├── RefreshTokenRequest.java
+    ├── VerifyEmailRequest.java
+    ├── ResendVerificationRequest.java
+    ├── ChangePasswordRequest.java
+    ├── ForgotPasswordRequest.java
+    ├── ResetPasswordRequest.java
+    ├── UpdateProfileRequest.java
+    └── LogoutRequest.java
+
+AFTER (organized with subdirectories):
+  application/auth/dto/request/
+    ├── authentication/
+    │   ├── LoginRequest.java
+    │   ├── RegisterRequest.java
+    │   └── LogoutRequest.java
+    ├── tokens/
+    │   ├── RefreshTokenRequest.java
+    │   └── RevokeTokenRequest.java
+    ├── verification/
+    │   ├── VerifyEmailRequest.java
+    │   ├── ResendVerificationRequest.java
+    │   └── ConfirmVerificationRequest.java
+    └── password/
+        ├── ChangePasswordRequest.java
+        ├── ForgotPasswordRequest.java
+        └── ResetPasswordRequest.java
+```
+
+**Refactoring completed:**
+- infrastructure/config: database/ + cache/ subfolders
+- application/auth/dto/request: authentication/ + verification/ + password/ subfolders
+- domain/academic/repository: faculty/ + student/ + project/ subfolders
+- domain/academic/enums: faculty/ + student/ subfolders
+- Plus 9 additional folders reorganized similarly
 
 ### YAGNI Principle (You Aren't Gonna Need It)
 - **No speculative features** — only implement what's needed for current task
@@ -313,13 +334,11 @@ public class UserService {
 ```
 
 ### Security Checklist
-- OAuth2 tokens (from Microsoft Entra) in Authorization header only
-- Passwords hashed via `BCryptPasswordEncoder` for local storage
+- JWT tokens in Authorization header only
+- Passwords hashed via `BCryptPasswordEncoder`
 - `@PreAuthorize` SpEL used sparingly, no complex logic
 - Stateless auth (no sessions in Spring Security)
-- Token validation against Microsoft's JWKS endpoint (no local secret key)
 - CORS configured in `application.yml` (dev origins only)
-- Issuer, audience, expiry, and oid claims validated before processing
 
 ### File & Code Organization
 - Max 100 lines per file — break into smaller classes/methods
