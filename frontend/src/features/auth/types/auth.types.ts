@@ -1,3 +1,4 @@
+export { UserRole, AccountStatus, StudentStatus, VerificationStatus, AdvisorStatus } from './enums';
 import type { UserRole, AccountStatus } from './enums';
 
 // ============================================
