@@ -22,7 +22,7 @@ public class GetAllFacultiesQueryHandler
     }
 
     @Override
-    @Cacheable(value = "faculties:page", key = "#q.page + ':' + #q.size", unless = "#result.body.isEmpty()")
+    @Cacheable(value = "faculties:page", key = "#q.page + ':' + #q.size", unless = "#result.getValue().isEmpty()")
     public Result<Page<FacultyResponse>> handle(GetAllFacultiesQuery q) {
         Pageable pageable = PageRequest.of(q.page(), q.size(), Sort.by("name").ascending());
         Page<FacultyResponse> faculties = facultyRepository.findAllValidated(pageable)
