@@ -3,30 +3,26 @@ package com.pfelink.monolith.infrastructure.security.token;
 import com.pfelink.monolith.domain.auth.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    private final JwtTokenBuilder tokenBuilder;
 
-    @Value("${jwt.access-token-expiration:900000}") // 15 minutes
+    @Value("${jwt.access-token-expiration:900000}")
     private long accessTokenExpiration;
 
-    @Value("${jwt.refresh-token-expiration:604800000}") // 7 days
+    @Value("${jwt.refresh-token-expiration:604800000}")
     private long refreshTokenExpiration;
-
-    private SecretKey signingKey;  // Cached (immutable secret)
 
     public String generateToken(User user) {
         return generateToken(user, accessTokenExpiration, false);
@@ -42,21 +38,11 @@ public class JwtService {
         if (isRefreshToken) {
             claims.put("type", "refresh");
         }
-        return buildToken(claims, user.getEmail(), expiration);
+        return tokenBuilder.buildToken(claims, user.getEmail(), expiration);
     }
 
     public long getRefreshTokenExpiration() {
         return refreshTokenExpiration;
-    }
-
-    private String buildToken(Map<String, Object> claims, String subject, long expiration) {
-        return Jwts.builder()
-                .claims(claims)
-                .subject(subject)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSigningKey())
-                .compact();
     }
 
     public String extractEmail(String token) {
@@ -86,17 +72,9 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .verifyWith(getSigningKey())
+                .verifyWith(tokenBuilder.getSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-    }
-
-    private SecretKey getSigningKey() {
-        if (signingKey == null) {
-            byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-            signingKey = Keys.hmacShaKeyFor(keyBytes);
-        }
-        return signingKey;
     }
 }
