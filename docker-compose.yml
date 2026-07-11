@@ -51,7 +51,8 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:alpine
+    build:
+      context: ./backend/nginx
     container_name: pfelink_nginx
     ports:
       - "8888:80"
