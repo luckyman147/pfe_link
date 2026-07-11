@@ -1,0 +1,30 @@
+title = "gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+regexes = [
+  # Google reCAPTCHA public test secret key (intentionally public, not sensitive)
+  '''6LeIxAcTAAAAAGG-vFI1TnRWxMZNFojJ4WifJWeh''',
+  # Google reCAPTCHA public test site key — same test pair, used in frontend/src/main.tsx.
+  # Site keys are meant to be public by design (embedded directly in frontend JS).
+  '''6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI''',
+  # application.yml dev-default EMAIL_PASSWORD — allowlisted by human decision, not cleaned up;
+  # Gmail App Password flagged separately for rotation by the user
+  '''fadqzmaztnnnrlso''',
+  # application.yml dev-default JWT_SECRET — allowlisted by human decision, not cleaned up
+  '''sxjN3jH5vK8mP2qR9wX7yZ4bD1eL6fG3jH5vK8mP2qR9wX7yZ4bD1eL6fG3jH5vK8=''',
+  # application.yml dev-default CLOUDINARY_API_SECRET — allowlisted by human decision, not cleaned up
+  '''WYAZp5sJm5DuHRr4bbltcdJ-whA''',
+  # application.yml dev-default CLOUDINARY_API_KEY — allowlisted by human decision, not cleaned up
+  '''271113118135419''',
+  # application.yml dev-default ADMIN_PASSWORD — allowlisted by human decision, not cleaned up
+  '''admin123''',
+  # Documentation placeholder in git history (docs/superpowers/plans/2026-05-17-entra-oauth2-migration.md, now deleted) — example curl auth header, not a real token
+  '''invalid-token-abc123''',
+  # Documentation placeholder in recap/2026-05-07_Frontend_Backend_Mismatches.md — literal "replace this" placeholder text
+  '''YOUR_TOKEN''',
+  # Truncated example JWT header shown in recap/2026-05-07_Complete_API_Reference.md — ends in "...", not a functional token
+  '''eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.\.\.''',
+]
