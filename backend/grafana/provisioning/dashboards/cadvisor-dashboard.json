@@ -1,0 +1,66 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "id": 1,
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_usage_seconds_total{name!=\"\"}[1m])) by (name)",
+          "legendFormat": "{{name}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Container CPU Usage (per container)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "id": 2,
+      "targets": [
+        {
+          "expr": "container_memory_usage_bytes{name!=\"\"}",
+          "legendFormat": "{{name}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Container Memory Usage (bytes, per container)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "id": 3,
+      "targets": [
+        {
+          "expr": "sum(rate(container_network_receive_bytes_total{name!=\"\"}[1m])) by (name)",
+          "legendFormat": "{{name}} rx",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(rate(container_network_transmit_bytes_total{name!=\"\"}[1m])) by (name)",
+          "legendFormat": "{{name}} tx",
+          "refId": "B"
+        }
+      ],
+      "title": "Container Network I/O (bytes/sec)",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "tags": ["cadvisor", "containers"],
+  "templating": { "list": [] },
+  "time": { "from": "now-15m", "to": "now" },
+  "timezone": "browser",
+  "title": "Container Metrics (cAdvisor)",
+  "uid": "cadvisor-containers",
+  "version": 1
+}
