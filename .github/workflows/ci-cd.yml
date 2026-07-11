@@ -87,9 +87,34 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_CONFIG: .gitleaks.toml
 
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: OWASP Dependency-Check (backend)
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: |
+          cd backend/pfelink-monolith
+          mvn org.owasp:dependency-check-maven:check -DnvdApiKey="$NVD_API_KEY"
+
+      - name: npm audit (frontend)
+        run: |
+          cd frontend
+          npm ci
+          npm audit --audit-level=critical
+
   deploy:
     if: github.event_name == 'push'
-    needs: [security-scan, secret-scan]
+    needs: [security-scan, secret-scan, dependency-check]
     runs-on: ubuntu-latest
     permissions:
       contents: read
