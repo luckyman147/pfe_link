@@ -22,6 +22,7 @@ node_modules/
 *.key
 *.crt
 credentials.json
+backend/nginx/certs/
 
 # OS
 Thumbs.db

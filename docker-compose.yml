@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: pfelink_db
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -32,15 +32,15 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USERNAME: postgres
-      DB_PASSWORD: ${DB_PASSWORD:-postgres}
-      JWT_SECRET: ${JWT_SECRET:-my-super-secret-jwt-key-change-in-production}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
       RECAPTCHA_SECRET: ${RECAPTCHA_SECRET:-6LeIxAcTAAAAAGG-vFI1TnRWxMZNFojJ4WifJWeh}
       ACTION_TOKEN_SECRET: ${ACTION_TOKEN_SECRET:-my-secure-hmac-secret-123}
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
-      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-dscdssfea}
-      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-741665864331788}
-      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-BYeLzu20xy9GMWoM6vpaAWy39J0}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
       MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: "true"
     depends_on:
