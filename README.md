@@ -324,3 +324,10 @@ http://localhost:8080/swagger-ui.html
 - All domain repository interfaces are defined in the `domain` layer; JPA implementations live in `infrastructure`.
 - The frontend enforces a **feature-based architecture**: each feature owns its pages, hooks, services, and types.
 - The project supports **bilingual UI** (English / French) via `i18next`.
+
+## Why This Project Stands Out
+
+- **Complete Workflow** - Manages the entire PFE process from start to finish
+- **Three User Roles** - Students, advisors, and administrators all in one platform
+- **Real-Time Collaboration** - Teams work together seamlessly
+- **Academic Focus** - Built specifically for educational institutions
